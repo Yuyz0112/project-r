@@ -4,6 +4,10 @@ project-r is a fullstack service which support rrweb.
 
 ## The components and stack
 
+### Infra
+
+docker + docker-compose
+
 ### DB
 
 mongoDB
