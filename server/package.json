@@ -1,0 +1,21 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "prisma": "prisma"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "prisma": "^1.25.7",
+    "typescript": "^3.3.1"
+  },
+  "dependencies": {
+    "graphql-yoga": "^1.17.1",
+    "prisma-client-lib": "^1.25.7",
+    "ts-node": "^8.0.2"
+  }
+}
