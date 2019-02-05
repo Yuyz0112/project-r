@@ -1,34 +1,7 @@
 import React, { Component } from 'react';
-import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
+import { GetPublishedPostsComponent } from './generated/graphql';
 import logo from './logo.svg';
 import './App.css';
-
-const queryUserWithPost = `
-{
-  users {
-    name,
-    id,
-    email,
-    posts {
-      title,
-      published
-    }
-  }
-}
-`;
-
-type user = {
-  id: string;
-  name: string;
-  email: string;
-  posts: post[];
-};
-
-type post = {
-  title: string;
-  published: boolean;
-};
 
 class App extends Component {
   render() {
@@ -47,24 +20,16 @@ class App extends Component {
           >
             Learn React
           </a>
-          <Query query={gql(queryUserWithPost)}>
+          <GetPublishedPostsComponent>
             {({ loading, error, data }) => {
               if (loading) return <p>Loading...</p>;
-              if (error) return <p>Error :(</p>;
+              if (error || !data) return <p>Error :(</p>;
 
-              return data.users.map((user: user) => (
-                <div key={user.id}>
-                  <p>{user.name}</p>
-                  <p>{user.email}</p>
-                  <ul>
-                    {user.posts.map(post => (
-                      <li key={post.title}>{post.title}</li>
-                    ))}
-                  </ul>
-                </div>
+              return data.publishedPosts.map(p => (
+                <div key={p.id}>{p.title}</div>
               ));
             }}
-          </Query>
+          </GetPublishedPostsComponent>
         </header>
       </div>
     );

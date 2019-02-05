@@ -1,0 +1,6 @@
+query getPublishedPosts {
+  publishedPosts {
+    id
+    title
+  }
+}

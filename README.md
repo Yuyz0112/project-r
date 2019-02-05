@@ -18,8 +18,8 @@ prisma
 
 ### Web Server
 
-graphQL-yoga + prisma-client
+graphQL-yoga + prisma-client + graphqlgen
 
 ### Admin Panel
 
-react + apollo
+react + apollo + graphql-code-generator
