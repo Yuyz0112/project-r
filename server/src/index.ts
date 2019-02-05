@@ -1,8 +1,13 @@
 import * as path from 'path';
 import { GraphQLServer } from 'graphql-yoga';
 import { prisma } from './generated/prisma-client';
+import {
+  Resolvers,
+  PostResolvers,
+  UserResolvers,
+} from './generated/graphqlgen';
 
-const resolvers = {
+const resolvers: Resolvers = {
   Query: {
     publishedPosts(parent, args, context) {
       return context.prisma.posts({ where: { published: true } });
@@ -16,9 +21,6 @@ const resolvers = {
           id: args.userId,
         })
         .posts();
-    },
-    users(parent, args, context) {
-      return context.prisma.users();
     },
   },
   Mutation: {
@@ -41,6 +43,7 @@ const resolvers = {
     },
   },
   User: {
+    ...UserResolvers.defaultResolvers,
     posts(parent, args, context) {
       return context.prisma
         .user({
@@ -50,6 +53,7 @@ const resolvers = {
     },
   },
   Post: {
+    ...PostResolvers.defaultResolvers,
     author(parent, args, context) {
       return context.prisma
         .post({
@@ -62,7 +66,8 @@ const resolvers = {
 
 const server = new GraphQLServer({
   typeDefs: path.resolve(__dirname, './schema.graphql'),
-  resolvers,
+  //FIXME: https://github.com/prisma/graphqlgen/issues/15
+  resolvers: resolvers as any,
   context: {
     prisma,
   },

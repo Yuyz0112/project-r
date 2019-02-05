@@ -4,12 +4,14 @@
   "description": "",
   "scripts": {
     "start": "ts-node src/index.ts",
-    "prisma": "prisma"
+    "prisma": "prisma",
+    "gg": "graphqlgen"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "graphqlgen": "^0.6.0-rc4",
     "prisma": "^1.25.7",
     "typescript": "^3.3.1"
   },
