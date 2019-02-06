@@ -3,11 +3,11 @@ scalar Json
 
 type Query {
   apps: [App!]!
+  events(sessionId: String!): [Event!]!
 }
 
 type Mutation {
   createApp(name: String!): App
-  listEvents(sessionId: String!): [Event!]!
 }
 
 type App {
@@ -28,6 +28,6 @@ type Event {
   id: ID!
   type: Int!
   data: Json!
+  timestamp: DateTime!
   sessionId: String!
-  createdAt: DateTime!
 }

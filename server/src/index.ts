@@ -14,6 +14,14 @@ const resolvers: Resolvers = {
     apps(parent, args, context) {
       return context.prisma.apps({});
     },
+    events(parent, args, context) {
+      return context.prisma.events({
+        where: {
+          sessionId: args.sessionId,
+        },
+        orderBy: 'timestamp_ASC'
+      });
+    },
   },
   Mutation: {
     createApp(parent, args, context) {
@@ -21,18 +29,15 @@ const resolvers: Resolvers = {
         name: args.name,
       });
     },
-    listEvents(parent, args, context) {
-      return context.prisma.events({
-        where: {
-          sessionId: args.sessionId,
-        },
-      });
-    },
   },
   App: {
     ...AppResolvers.defaultResolvers,
     sessions(parent, args, context) {
-      return context.prisma.app({ id: parent.id }).sessions();
+      return context.prisma.app({ id: parent.id }).sessions({
+        where: {
+          lastEventTime_not: null
+        }
+      });
     },
   },
   Session: {
@@ -81,8 +86,9 @@ server.post('/sessions', async (req, res) => {
 server.post('/events:batch', async (req, res) => {
   const { sessionId, events } = req.body;
   for (const event of events) {
-    prisma.createEvent({
+    await prisma.createEvent({
       ...event,
+      timestamp: new Date(event.timestamp),
       sessionId: sessionId,
     });
   }

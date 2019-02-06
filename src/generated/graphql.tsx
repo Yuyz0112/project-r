@@ -38,6 +38,26 @@ export type GetAppsSessions = {
   createdAt: string;
 };
 
+export type GetEventsVariables = {
+  sessionId: string;
+};
+
+export type GetEventsQuery = {
+  __typename?: 'Query';
+
+  events: GetEventsEvents[];
+};
+
+export type GetEventsEvents = {
+  __typename?: 'Event';
+
+  timestamp: string;
+
+  type: number;
+
+  data: Json;
+};
+
 import * as ReactApollo from 'react-apollo';
 import * as React from 'react';
 
@@ -93,4 +113,46 @@ export function GetAppsHOC<TProps, TChildProps = any>(
     GetAppsVariables,
     GetAppsProps<TChildProps>
   >(GetAppsDocument, operationOptions);
+}
+export const GetEventsDocument = gql`
+  query getEvents($sessionId: String!) {
+    events(sessionId: $sessionId) {
+      timestamp
+      type
+      data
+    }
+  }
+`;
+export class GetEventsComponent extends React.Component<
+  Partial<ReactApollo.QueryProps<GetEventsQuery, GetEventsVariables>>
+> {
+  render() {
+    return (
+      <ReactApollo.Query<GetEventsQuery, GetEventsVariables>
+        query={GetEventsDocument}
+        {...(this as any)['props'] as any}
+      />
+    );
+  }
+}
+export type GetEventsProps<TChildProps = any> = Partial<
+  ReactApollo.DataProps<GetEventsQuery, GetEventsVariables>
+> &
+  TChildProps;
+export function GetEventsHOC<TProps, TChildProps = any>(
+  operationOptions:
+    | ReactApollo.OperationOption<
+        TProps,
+        GetEventsQuery,
+        GetEventsVariables,
+        GetEventsProps<TChildProps>
+      >
+    | undefined,
+) {
+  return ReactApollo.graphql<
+    TProps,
+    GetEventsQuery,
+    GetEventsVariables,
+    GetEventsProps<TChildProps>
+  >(GetEventsDocument, operationOptions);
 }

@@ -159,6 +159,7 @@ type Event {
   id: ID!
   type: Int!
   data: Json!
+  timestamp: DateTime!
   sessionId: String!
   createdAt: DateTime!
 }
@@ -172,6 +173,7 @@ type EventConnection {
 input EventCreateInput {
   type: Int!
   data: Json!
+  timestamp: DateTime!
   sessionId: String!
 }
 
@@ -187,6 +189,8 @@ enum EventOrderByInput {
   type_DESC
   data_ASC
   data_DESC
+  timestamp_ASC
+  timestamp_DESC
   sessionId_ASC
   sessionId_DESC
   createdAt_ASC
@@ -197,6 +201,7 @@ type EventPreviousValues {
   id: ID!
   type: Int!
   data: Json!
+  timestamp: DateTime!
   sessionId: String!
   createdAt: DateTime!
 }
@@ -222,12 +227,14 @@ input EventSubscriptionWhereInput {
 input EventUpdateInput {
   type: Int
   data: Json
+  timestamp: DateTime
   sessionId: String
 }
 
 input EventUpdateManyMutationInput {
   type: Int
   data: Json
+  timestamp: DateTime
   sessionId: String
 }
 
@@ -254,6 +261,14 @@ input EventWhereInput {
   type_lte: Int
   type_gt: Int
   type_gte: Int
+  timestamp: DateTime
+  timestamp_not: DateTime
+  timestamp_in: [DateTime!]
+  timestamp_not_in: [DateTime!]
+  timestamp_lt: DateTime
+  timestamp_lte: DateTime
+  timestamp_gt: DateTime
+  timestamp_gte: DateTime
   sessionId: String
   sessionId_not: String
   sessionId_in: [String!]

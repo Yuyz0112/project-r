@@ -16,6 +16,7 @@ type Event {
   id: ID! @id
   type: Int!
   data: Json!
+  timestamp: DateTime!
   sessionId: String!
   createdAt: DateTime! @createdAt
 }

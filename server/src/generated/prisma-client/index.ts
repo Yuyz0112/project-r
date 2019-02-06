@@ -200,6 +200,8 @@ export type EventOrderByInput =
   | "type_DESC"
   | "data_ASC"
   | "data_DESC"
+  | "timestamp_ASC"
+  | "timestamp_DESC"
   | "sessionId_ASC"
   | "sessionId_DESC"
   | "createdAt_ASC"
@@ -261,6 +263,7 @@ export interface SessionScalarWhereInput {
 export interface EventUpdateManyMutationInput {
   type?: Int;
   data?: Json;
+  timestamp?: DateTimeInput;
   sessionId?: String;
 }
 
@@ -317,6 +320,7 @@ export interface AppWhereInput {
 export interface EventUpdateInput {
   type?: Int;
   data?: Json;
+  timestamp?: DateTimeInput;
   sessionId?: String;
 }
 
@@ -334,6 +338,7 @@ export interface EventSubscriptionWhereInput {
 export interface EventCreateInput {
   type: Int;
   data: Json;
+  timestamp: DateTimeInput;
   sessionId: String;
 }
 
@@ -381,6 +386,14 @@ export interface EventWhereInput {
   type_lte?: Int;
   type_gt?: Int;
   type_gte?: Int;
+  timestamp?: DateTimeInput;
+  timestamp_not?: DateTimeInput;
+  timestamp_in?: DateTimeInput[] | DateTimeInput;
+  timestamp_not_in?: DateTimeInput[] | DateTimeInput;
+  timestamp_lt?: DateTimeInput;
+  timestamp_lte?: DateTimeInput;
+  timestamp_gt?: DateTimeInput;
+  timestamp_gte?: DateTimeInput;
   sessionId?: String;
   sessionId_not?: String;
   sessionId_in?: String[] | String;
@@ -668,6 +681,7 @@ export interface Event {
   id: ID_Output;
   type: Int;
   data: Json;
+  timestamp: DateTimeOutput;
   sessionId: String;
   createdAt: DateTimeOutput;
 }
@@ -676,6 +690,7 @@ export interface EventPromise extends Promise<Event>, Fragmentable {
   id: () => Promise<ID_Output>;
   type: () => Promise<Int>;
   data: () => Promise<Json>;
+  timestamp: () => Promise<DateTimeOutput>;
   sessionId: () => Promise<String>;
   createdAt: () => Promise<DateTimeOutput>;
 }
@@ -686,6 +701,7 @@ export interface EventSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   type: () => Promise<AsyncIterator<Int>>;
   data: () => Promise<AsyncIterator<Json>>;
+  timestamp: () => Promise<AsyncIterator<DateTimeOutput>>;
   sessionId: () => Promise<AsyncIterator<String>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
@@ -710,6 +726,7 @@ export interface EventPreviousValues {
   id: ID_Output;
   type: Int;
   data: Json;
+  timestamp: DateTimeOutput;
   sessionId: String;
   createdAt: DateTimeOutput;
 }
@@ -720,6 +737,7 @@ export interface EventPreviousValuesPromise
   id: () => Promise<ID_Output>;
   type: () => Promise<Int>;
   data: () => Promise<Json>;
+  timestamp: () => Promise<DateTimeOutput>;
   sessionId: () => Promise<String>;
   createdAt: () => Promise<DateTimeOutput>;
 }
@@ -730,6 +748,7 @@ export interface EventPreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   type: () => Promise<AsyncIterator<Int>>;
   data: () => Promise<AsyncIterator<Json>>;
+  timestamp: () => Promise<AsyncIterator<DateTimeOutput>>;
   sessionId: () => Promise<AsyncIterator<String>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }

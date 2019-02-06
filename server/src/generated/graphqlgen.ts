@@ -7,6 +7,10 @@ import { Context } from '../context';
 export namespace QueryResolvers {
   export const defaultResolvers = {};
 
+  export interface ArgsEvents {
+    sessionId: string;
+  }
+
   export type AppsResolver =
     | ((
         parent: undefined,
@@ -22,6 +26,23 @@ export namespace QueryResolvers {
           ctx: Context,
           info: GraphQLResolveInfo,
         ) => App[] | Promise<App[]>;
+      };
+
+  export type EventsResolver =
+    | ((
+        parent: undefined,
+        args: ArgsEvents,
+        ctx: Context,
+        info: GraphQLResolveInfo,
+      ) => Event[] | Promise<Event[]>)
+    | {
+        fragment: string;
+        resolver: (
+          parent: undefined,
+          args: ArgsEvents,
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => Event[] | Promise<Event[]>;
       };
 
   export interface Type {
@@ -40,6 +61,23 @@ export namespace QueryResolvers {
             ctx: Context,
             info: GraphQLResolveInfo,
           ) => App[] | Promise<App[]>;
+        };
+
+    events:
+      | ((
+          parent: undefined,
+          args: ArgsEvents,
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => Event[] | Promise<Event[]>)
+      | {
+          fragment: string;
+          resolver: (
+            parent: undefined,
+            args: ArgsEvents,
+            ctx: Context,
+            info: GraphQLResolveInfo,
+          ) => Event[] | Promise<Event[]>;
         };
   }
 }
@@ -337,95 +375,13 @@ export namespace SessionResolvers {
   }
 }
 
-export namespace MutationResolvers {
-  export const defaultResolvers = {};
-
-  export interface ArgsCreateApp {
-    name: string;
-  }
-
-  export interface ArgsListEvents {
-    sessionId: string;
-  }
-
-  export type CreateAppResolver =
-    | ((
-        parent: undefined,
-        args: ArgsCreateApp,
-        ctx: Context,
-        info: GraphQLResolveInfo,
-      ) => App | null | Promise<App | null>)
-    | {
-        fragment: string;
-        resolver: (
-          parent: undefined,
-          args: ArgsCreateApp,
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => App | null | Promise<App | null>;
-      };
-
-  export type ListEventsResolver =
-    | ((
-        parent: undefined,
-        args: ArgsListEvents,
-        ctx: Context,
-        info: GraphQLResolveInfo,
-      ) => Event[] | Promise<Event[]>)
-    | {
-        fragment: string;
-        resolver: (
-          parent: undefined,
-          args: ArgsListEvents,
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => Event[] | Promise<Event[]>;
-      };
-
-  export interface Type {
-    createApp:
-      | ((
-          parent: undefined,
-          args: ArgsCreateApp,
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => App | null | Promise<App | null>)
-      | {
-          fragment: string;
-          resolver: (
-            parent: undefined,
-            args: ArgsCreateApp,
-            ctx: Context,
-            info: GraphQLResolveInfo,
-          ) => App | null | Promise<App | null>;
-        };
-
-    listEvents:
-      | ((
-          parent: undefined,
-          args: ArgsListEvents,
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => Event[] | Promise<Event[]>)
-      | {
-          fragment: string;
-          resolver: (
-            parent: undefined,
-            args: ArgsListEvents,
-            ctx: Context,
-            info: GraphQLResolveInfo,
-          ) => Event[] | Promise<Event[]>;
-        };
-  }
-}
-
 export namespace EventResolvers {
   export const defaultResolvers = {
     id: (parent: Event) => parent.id,
     type: (parent: Event) => parent.type,
     data: (parent: Event) => parent.data,
+    timestamp: (parent: Event) => parent.timestamp,
     sessionId: (parent: Event) => parent.sessionId,
-    createdAt: (parent: Event) => parent.createdAt,
   };
 
   export type IdResolver =
@@ -479,7 +435,7 @@ export namespace EventResolvers {
         ) => string | Promise<string>;
       };
 
-  export type SessionIdResolver =
+  export type TimestampResolver =
     | ((
         parent: Event,
         args: {},
@@ -496,7 +452,7 @@ export namespace EventResolvers {
         ) => string | Promise<string>;
       };
 
-  export type CreatedAtResolver =
+  export type SessionIdResolver =
     | ((
         parent: Event,
         args: {},
@@ -565,7 +521,7 @@ export namespace EventResolvers {
           ) => string | Promise<string>;
         };
 
-    sessionId:
+    timestamp:
       | ((
           parent: Event,
           args: {},
@@ -582,7 +538,7 @@ export namespace EventResolvers {
           ) => string | Promise<string>;
         };
 
-    createdAt:
+    sessionId:
       | ((
           parent: Event,
           args: {},
@@ -601,10 +557,54 @@ export namespace EventResolvers {
   }
 }
 
+export namespace MutationResolvers {
+  export const defaultResolvers = {};
+
+  export interface ArgsCreateApp {
+    name: string;
+  }
+
+  export type CreateAppResolver =
+    | ((
+        parent: undefined,
+        args: ArgsCreateApp,
+        ctx: Context,
+        info: GraphQLResolveInfo,
+      ) => App | null | Promise<App | null>)
+    | {
+        fragment: string;
+        resolver: (
+          parent: undefined,
+          args: ArgsCreateApp,
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => App | null | Promise<App | null>;
+      };
+
+  export interface Type {
+    createApp:
+      | ((
+          parent: undefined,
+          args: ArgsCreateApp,
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => App | null | Promise<App | null>)
+      | {
+          fragment: string;
+          resolver: (
+            parent: undefined,
+            args: ArgsCreateApp,
+            ctx: Context,
+            info: GraphQLResolveInfo,
+          ) => App | null | Promise<App | null>;
+        };
+  }
+}
+
 export interface Resolvers {
   Query: QueryResolvers.Type;
   App: AppResolvers.Type;
   Session: SessionResolvers.Type;
-  Mutation: MutationResolvers.Type;
   Event: EventResolvers.Type;
+  Mutation: MutationResolvers.Type;
 }

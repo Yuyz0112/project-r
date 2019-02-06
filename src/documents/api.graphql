@@ -10,3 +10,11 @@ query getApps {
     createdAt
   }
 }
+
+query getEvents($sessionId: String!) {
+  events(sessionId: $sessionId) {
+    timestamp
+    type
+    data
+  }
+}
