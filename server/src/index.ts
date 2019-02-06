@@ -1,6 +1,7 @@
 import * as path from 'path';
 import { GraphQLServer, Options } from 'graphql-yoga';
 import * as bodyParser from 'body-parser';
+import * as express from 'express';
 import { prisma } from './generated/prisma-client';
 import {
   Resolvers,
@@ -19,7 +20,7 @@ const resolvers: Resolvers = {
         where: {
           sessionId: args.sessionId,
         },
-        orderBy: 'timestamp_ASC'
+        orderBy: 'timestamp_ASC',
       });
     },
   },
@@ -35,8 +36,8 @@ const resolvers: Resolvers = {
     sessions(parent, args, context) {
       return context.prisma.app({ id: parent.id }).sessions({
         where: {
-          lastEventTime_not: null
-        }
+          lastEventTime_not: null,
+        },
       });
     },
   },
@@ -104,6 +105,18 @@ server.post('/events:batch', async (req, res) => {
     });
   }
   res.send('ok');
+});
+
+server.express.use(express.static(path.resolve(__dirname, '../../build')));
+server.express.get('*', (req, res, next) => {
+  if (
+    req.url == options.playground ||
+    req.url == options.subscriptions ||
+    req.url == options.endpoint
+  ) {
+    return next();
+  }
+  res.sendFile(path.join(__dirname, '../../build/index.html'));
 });
 
 server.start(options, ({ port }) =>

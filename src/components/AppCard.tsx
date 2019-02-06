@@ -3,13 +3,15 @@ import dayjs from 'dayjs';
 import { GetAppsApps } from '../generated/graphql';
 import SessionModal from './SessionModal';
 
+const HOST = process.env.BACKEND
+
 const getCode = (
   id: string,
 ) => `<script src="https://cdn.jsdelivr.net/npm/rrweb@latest/dist/record/rrweb-record.min.js"></script>
 <script>
   let events = [];
 
-  fetch('http://localhost:4000/sessions', {
+  fetch('${HOST}/sessions', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -38,7 +40,7 @@ const getCode = (
       events
     })
     events = [];
-    fetch('http://localhost:4000/events:batch', {
+    fetch('${HOST}/events:batch', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
