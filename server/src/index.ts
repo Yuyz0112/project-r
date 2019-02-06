@@ -3,63 +3,43 @@ import { GraphQLServer } from 'graphql-yoga';
 import { prisma } from './generated/prisma-client';
 import {
   Resolvers,
-  PostResolvers,
-  UserResolvers,
+  AppResolvers,
+  SessionResolvers,
+  EventResolvers,
 } from './generated/graphqlgen';
 
 const resolvers: Resolvers = {
   Query: {
-    publishedPosts(parent, args, context) {
-      return context.prisma.posts({ where: { published: true } });
-    },
-    post(parent, args, context) {
-      return context.prisma.post({ id: args.postId });
-    },
-    postsByUser(parent, args, context) {
-      return context.prisma
-        .user({
-          id: args.userId,
-        })
-        .posts();
+    apps(parent, args, context) {
+      return context.prisma.apps({});
     },
   },
   Mutation: {
-    createDraft(parent, args, context) {
-      return context.prisma.createPost({
-        title: args.title,
-        author: {
-          connect: { id: args.userId },
-        },
+    createApp(parent, args, context) {
+      return context.prisma.createApp({
+        name: args.name,
       });
     },
-    publish(parent, args, context) {
-      return context.prisma.updatePost({
-        where: { id: args.postId },
-        data: { published: true },
-      });
-    },
-    createUser(parent, args, context) {
-      return context.prisma.createUser({ name: args.name });
+  },
+  App: {
+    ...AppResolvers.defaultResolvers,
+    sessions(parent, args, context) {
+      return context.prisma.app({ id: parent.id }).sessions();
     },
   },
-  User: {
-    ...UserResolvers.defaultResolvers,
-    posts(parent, args, context) {
-      return context.prisma
-        .user({
-          id: parent.id,
-        })
-        .posts();
+  Session: {
+    ...SessionResolvers.defaultResolvers,
+    events(parent, args, context) {
+      return context.prisma.session({ id: parent.id }).events();
+    },
+    app(parent, args, context) {
+      return context.prisma.session({ id: parent.id }).app();
     },
   },
-  Post: {
-    ...PostResolvers.defaultResolvers,
-    author(parent, args, context) {
-      return context.prisma
-        .post({
-          id: parent.id,
-        })
-        .author();
+  Event: {
+    ...EventResolvers.defaultResolvers,
+    session(parent, args, context) {
+      return context.prisma.event({ id: parent.id }).session();
     },
   },
 };

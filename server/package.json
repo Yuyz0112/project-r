@@ -5,7 +5,8 @@
   "scripts": {
     "start": "ts-node src/index.ts",
     "prisma": "prisma",
-    "gg": "graphqlgen"
+    "graphqlgen": "graphqlgen",
+    "generate": "npm run prisma generate && npm run graphqlgen"
   },
   "keywords": [],
   "author": "",

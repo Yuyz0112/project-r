@@ -1,13 +1,23 @@
-type User {
+type App {
   id: ID! @id
-  email: String @unique
-  name: String!
-  posts: [Post!]! @relation(link: INLINE)
+  name: String! @unique
+  sessions: [Session!]! @relation(link: INLINE)
+  createdAt: DateTime! @createdAt
 }
 
-type Post {
+type Session {
   id: ID! @id
-  title: String!
-  published: Boolean! @default(value: false)
-  author: User
+  eventCount: Int!
+  lastEventTime: DateTime!
+  events: [Event!]! @relation(link: INLINE)
+  createdAt: DateTime! @createdAt
+  app: App
+}
+
+type Event {
+  id: ID! @id
+  type: Int!
+  data: Json!
+  createdAt: DateTime! @createdAt
+  session: Session
 }

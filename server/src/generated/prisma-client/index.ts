@@ -14,8 +14,9 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
   U[keyof U];
 
 export interface Exists {
-  post: (where?: PostWhereInput) => Promise<boolean>;
-  user: (where?: UserWhereInput) => Promise<boolean>;
+  app: (where?: AppWhereInput) => Promise<boolean>;
+  event: (where?: EventWhereInput) => Promise<boolean>;
+  session: (where?: SessionWhereInput) => Promise<boolean>;
 }
 
 export interface Node {}
@@ -37,82 +38,117 @@ export interface Prisma {
    * Queries
    */
 
-  post: (where: PostWhereUniqueInput) => PostPromise;
-  posts: (args?: {
-    where?: PostWhereInput;
-    orderBy?: PostOrderByInput;
+  app: (where: AppWhereUniqueInput) => AppPromise;
+  apps: (args?: {
+    where?: AppWhereInput;
+    orderBy?: AppOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
-  }) => FragmentableArray<Post>;
-  postsConnection: (args?: {
-    where?: PostWhereInput;
-    orderBy?: PostOrderByInput;
+  }) => FragmentableArray<App>;
+  appsConnection: (args?: {
+    where?: AppWhereInput;
+    orderBy?: AppOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
-  }) => PostConnectionPromise;
-  user: (where: UserWhereUniqueInput) => UserPromise;
-  users: (args?: {
-    where?: UserWhereInput;
-    orderBy?: UserOrderByInput;
+  }) => AppConnectionPromise;
+  event: (where: EventWhereUniqueInput) => EventPromise;
+  events: (args?: {
+    where?: EventWhereInput;
+    orderBy?: EventOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
-  }) => FragmentableArray<User>;
-  usersConnection: (args?: {
-    where?: UserWhereInput;
-    orderBy?: UserOrderByInput;
+  }) => FragmentableArray<Event>;
+  eventsConnection: (args?: {
+    where?: EventWhereInput;
+    orderBy?: EventOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
-  }) => UserConnectionPromise;
+  }) => EventConnectionPromise;
+  session: (where: SessionWhereUniqueInput) => SessionPromise;
+  sessions: (args?: {
+    where?: SessionWhereInput;
+    orderBy?: SessionOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Session>;
+  sessionsConnection: (args?: {
+    where?: SessionWhereInput;
+    orderBy?: SessionOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => SessionConnectionPromise;
   node: (args: { id: ID_Output }) => Node;
 
   /**
    * Mutations
    */
 
-  createPost: (data: PostCreateInput) => PostPromise;
-  updatePost: (args: {
-    data: PostUpdateInput;
-    where: PostWhereUniqueInput;
-  }) => PostPromise;
-  updateManyPosts: (args: {
-    data: PostUpdateManyMutationInput;
-    where?: PostWhereInput;
+  createApp: (data: AppCreateInput) => AppPromise;
+  updateApp: (args: {
+    data: AppUpdateInput;
+    where: AppWhereUniqueInput;
+  }) => AppPromise;
+  updateManyApps: (args: {
+    data: AppUpdateManyMutationInput;
+    where?: AppWhereInput;
   }) => BatchPayloadPromise;
-  upsertPost: (args: {
-    where: PostWhereUniqueInput;
-    create: PostCreateInput;
-    update: PostUpdateInput;
-  }) => PostPromise;
-  deletePost: (where: PostWhereUniqueInput) => PostPromise;
-  deleteManyPosts: (where?: PostWhereInput) => BatchPayloadPromise;
-  createUser: (data: UserCreateInput) => UserPromise;
-  updateUser: (args: {
-    data: UserUpdateInput;
-    where: UserWhereUniqueInput;
-  }) => UserPromise;
-  updateManyUsers: (args: {
-    data: UserUpdateManyMutationInput;
-    where?: UserWhereInput;
+  upsertApp: (args: {
+    where: AppWhereUniqueInput;
+    create: AppCreateInput;
+    update: AppUpdateInput;
+  }) => AppPromise;
+  deleteApp: (where: AppWhereUniqueInput) => AppPromise;
+  deleteManyApps: (where?: AppWhereInput) => BatchPayloadPromise;
+  createEvent: (data: EventCreateInput) => EventPromise;
+  updateEvent: (args: {
+    data: EventUpdateInput;
+    where: EventWhereUniqueInput;
+  }) => EventPromise;
+  updateManyEvents: (args: {
+    data: EventUpdateManyMutationInput;
+    where?: EventWhereInput;
   }) => BatchPayloadPromise;
-  upsertUser: (args: {
-    where: UserWhereUniqueInput;
-    create: UserCreateInput;
-    update: UserUpdateInput;
-  }) => UserPromise;
-  deleteUser: (where: UserWhereUniqueInput) => UserPromise;
-  deleteManyUsers: (where?: UserWhereInput) => BatchPayloadPromise;
+  upsertEvent: (args: {
+    where: EventWhereUniqueInput;
+    create: EventCreateInput;
+    update: EventUpdateInput;
+  }) => EventPromise;
+  deleteEvent: (where: EventWhereUniqueInput) => EventPromise;
+  deleteManyEvents: (where?: EventWhereInput) => BatchPayloadPromise;
+  createSession: (data: SessionCreateInput) => SessionPromise;
+  updateSession: (args: {
+    data: SessionUpdateInput;
+    where: SessionWhereUniqueInput;
+  }) => SessionPromise;
+  updateManySessions: (args: {
+    data: SessionUpdateManyMutationInput;
+    where?: SessionWhereInput;
+  }) => BatchPayloadPromise;
+  upsertSession: (args: {
+    where: SessionWhereUniqueInput;
+    create: SessionCreateInput;
+    update: SessionUpdateInput;
+  }) => SessionPromise;
+  deleteSession: (where: SessionWhereUniqueInput) => SessionPromise;
+  deleteManySessions: (where?: SessionWhereInput) => BatchPayloadPromise;
 
   /**
    * Subscriptions
@@ -122,12 +158,15 @@ export interface Prisma {
 }
 
 export interface Subscription {
-  post: (
-    where?: PostSubscriptionWhereInput
-  ) => PostSubscriptionPayloadSubscription;
-  user: (
-    where?: UserSubscriptionWhereInput
-  ) => UserSubscriptionPayloadSubscription;
+  app: (
+    where?: AppSubscriptionWhereInput
+  ) => AppSubscriptionPayloadSubscription;
+  event: (
+    where?: EventSubscriptionWhereInput
+  ) => EventSubscriptionPayloadSubscription;
+  session: (
+    where?: SessionSubscriptionWhereInput
+  ) => SessionSubscriptionPayloadSubscription;
 }
 
 export interface ClientConstructor<T> {
@@ -138,93 +177,162 @@ export interface ClientConstructor<T> {
  * Types
  */
 
-export type PostOrderByInput =
+export type SessionOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "title_ASC"
-  | "title_DESC"
-  | "published_ASC"
-  | "published_DESC";
+  | "eventCount_ASC"
+  | "eventCount_DESC"
+  | "lastEventTime_ASC"
+  | "lastEventTime_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC";
 
-export type UserOrderByInput =
+export type EventOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "email_ASC"
-  | "email_DESC"
+  | "type_ASC"
+  | "type_DESC"
+  | "data_ASC"
+  | "data_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC";
+
+export type AppOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
   | "name_ASC"
-  | "name_DESC";
+  | "name_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export interface UserUpdateOneWithoutPostsInput {
-  create?: UserCreateWithoutPostsInput;
-  update?: UserUpdateWithoutPostsDataInput;
-  upsert?: UserUpsertWithoutPostsInput;
-  delete?: Boolean;
-  disconnect?: Boolean;
-  connect?: UserWhereUniqueInput;
+export interface EventUpdateWithWhereUniqueWithoutSessionInput {
+  where: EventWhereUniqueInput;
+  data: EventUpdateWithoutSessionDataInput;
 }
 
-export type PostWhereUniqueInput = AtLeastOne<{
+export type AppWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
+  name?: String;
 }>;
 
-export interface PostUpdateManyWithoutAuthorInput {
-  create?: PostCreateWithoutAuthorInput[] | PostCreateWithoutAuthorInput;
-  delete?: PostWhereUniqueInput[] | PostWhereUniqueInput;
-  connect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
-  disconnect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
-  update?:
-    | PostUpdateWithWhereUniqueWithoutAuthorInput[]
-    | PostUpdateWithWhereUniqueWithoutAuthorInput;
-  upsert?:
-    | PostUpsertWithWhereUniqueWithoutAuthorInput[]
-    | PostUpsertWithWhereUniqueWithoutAuthorInput;
-  deleteMany?: PostScalarWhereInput[] | PostScalarWhereInput;
-  updateMany?:
-    | PostUpdateManyWithWhereNestedInput[]
-    | PostUpdateManyWithWhereNestedInput;
-}
-
-export interface UserCreateInput {
-  email?: String;
+export interface AppCreateInput {
   name: String;
-  posts?: PostCreateManyWithoutAuthorInput;
+  sessions?: SessionCreateManyWithoutAppInput;
 }
 
-export interface PostUpdateManyMutationInput {
-  title?: String;
-  published?: Boolean;
+export interface EventCreateInput {
+  type: Int;
+  data: Json;
+  session?: SessionCreateOneWithoutEventsInput;
 }
 
-export interface PostSubscriptionWhereInput {
+export interface SessionCreateManyWithoutAppInput {
+  create?: SessionCreateWithoutAppInput[] | SessionCreateWithoutAppInput;
+  connect?: SessionWhereUniqueInput[] | SessionWhereUniqueInput;
+}
+
+export interface EventScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  type?: Int;
+  type_not?: Int;
+  type_in?: Int[] | Int;
+  type_not_in?: Int[] | Int;
+  type_lt?: Int;
+  type_lte?: Int;
+  type_gt?: Int;
+  type_gte?: Int;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  AND?: EventScalarWhereInput[] | EventScalarWhereInput;
+  OR?: EventScalarWhereInput[] | EventScalarWhereInput;
+  NOT?: EventScalarWhereInput[] | EventScalarWhereInput;
+}
+
+export interface SessionCreateWithoutAppInput {
+  eventCount: Int;
+  lastEventTime: DateTimeInput;
+  events?: EventCreateManyWithoutSessionInput;
+}
+
+export interface EventWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  type?: Int;
+  type_not?: Int;
+  type_in?: Int[] | Int;
+  type_not_in?: Int[] | Int;
+  type_lt?: Int;
+  type_lte?: Int;
+  type_gt?: Int;
+  type_gte?: Int;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  AND?: EventWhereInput[] | EventWhereInput;
+  OR?: EventWhereInput[] | EventWhereInput;
+  NOT?: EventWhereInput[] | EventWhereInput;
+}
+
+export interface EventCreateManyWithoutSessionInput {
+  create?: EventCreateWithoutSessionInput[] | EventCreateWithoutSessionInput;
+  connect?: EventWhereUniqueInput[] | EventWhereUniqueInput;
+}
+
+export interface EventSubscriptionWhereInput {
   mutation_in?: MutationType[] | MutationType;
   updatedFields_contains?: String;
   updatedFields_contains_every?: String[] | String;
   updatedFields_contains_some?: String[] | String;
-  node?: PostWhereInput;
-  AND?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
-  OR?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
-  NOT?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
+  node?: EventWhereInput;
+  AND?: EventSubscriptionWhereInput[] | EventSubscriptionWhereInput;
+  OR?: EventSubscriptionWhereInput[] | EventSubscriptionWhereInput;
+  NOT?: EventSubscriptionWhereInput[] | EventSubscriptionWhereInput;
 }
 
-export interface PostCreateInput {
-  title: String;
-  published?: Boolean;
-  author?: UserCreateOneWithoutPostsInput;
+export interface EventCreateWithoutSessionInput {
+  type: Int;
+  data: Json;
 }
 
-export interface PostUpdateManyDataInput {
-  title?: String;
-  published?: Boolean;
-}
-
-export interface UserCreateOneWithoutPostsInput {
-  create?: UserCreateWithoutPostsInput;
-  connect?: UserWhereUniqueInput;
-}
-
-export interface PostScalarWhereInput {
+export interface AppWhereInput {
   id?: ID_Input;
   id_not?: ID_Input;
   id_in?: ID_Input[] | ID_Input;
@@ -239,61 +347,6 @@ export interface PostScalarWhereInput {
   id_not_starts_with?: ID_Input;
   id_ends_with?: ID_Input;
   id_not_ends_with?: ID_Input;
-  title?: String;
-  title_not?: String;
-  title_in?: String[] | String;
-  title_not_in?: String[] | String;
-  title_lt?: String;
-  title_lte?: String;
-  title_gt?: String;
-  title_gte?: String;
-  title_contains?: String;
-  title_not_contains?: String;
-  title_starts_with?: String;
-  title_not_starts_with?: String;
-  title_ends_with?: String;
-  title_not_ends_with?: String;
-  published?: Boolean;
-  published_not?: Boolean;
-  AND?: PostScalarWhereInput[] | PostScalarWhereInput;
-  OR?: PostScalarWhereInput[] | PostScalarWhereInput;
-  NOT?: PostScalarWhereInput[] | PostScalarWhereInput;
-}
-
-export interface UserCreateWithoutPostsInput {
-  email?: String;
-  name: String;
-}
-
-export interface UserWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  email?: String;
-  email_not?: String;
-  email_in?: String[] | String;
-  email_not_in?: String[] | String;
-  email_lt?: String;
-  email_lte?: String;
-  email_gt?: String;
-  email_gte?: String;
-  email_contains?: String;
-  email_not_contains?: String;
-  email_starts_with?: String;
-  email_not_starts_with?: String;
-  email_ends_with?: String;
-  email_not_ends_with?: String;
   name?: String;
   name_not?: String;
   name_in?: String[] | String;
@@ -308,60 +361,185 @@ export interface UserWhereInput {
   name_not_starts_with?: String;
   name_ends_with?: String;
   name_not_ends_with?: String;
-  AND?: UserWhereInput[] | UserWhereInput;
-  OR?: UserWhereInput[] | UserWhereInput;
-  NOT?: UserWhereInput[] | UserWhereInput;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  AND?: AppWhereInput[] | AppWhereInput;
+  OR?: AppWhereInput[] | AppWhereInput;
+  NOT?: AppWhereInput[] | AppWhereInput;
 }
 
-export interface PostUpdateInput {
-  title?: String;
-  published?: Boolean;
-  author?: UserUpdateOneWithoutPostsInput;
-}
-
-export interface PostUpdateWithoutAuthorDataInput {
-  title?: String;
-  published?: Boolean;
-}
-
-export interface UserUpdateInput {
-  email?: String;
+export interface AppUpdateInput {
   name?: String;
-  posts?: PostUpdateManyWithoutAuthorInput;
+  sessions?: SessionUpdateManyWithoutAppInput;
 }
 
-export interface UserSubscriptionWhereInput {
+export interface SessionUpdateInput {
+  eventCount?: Int;
+  lastEventTime?: DateTimeInput;
+  events?: EventUpdateManyWithoutSessionInput;
+  app?: AppUpdateOneWithoutSessionsInput;
+}
+
+export interface SessionUpdateManyWithoutAppInput {
+  create?: SessionCreateWithoutAppInput[] | SessionCreateWithoutAppInput;
+  delete?: SessionWhereUniqueInput[] | SessionWhereUniqueInput;
+  connect?: SessionWhereUniqueInput[] | SessionWhereUniqueInput;
+  disconnect?: SessionWhereUniqueInput[] | SessionWhereUniqueInput;
+  update?:
+    | SessionUpdateWithWhereUniqueWithoutAppInput[]
+    | SessionUpdateWithWhereUniqueWithoutAppInput;
+  upsert?:
+    | SessionUpsertWithWhereUniqueWithoutAppInput[]
+    | SessionUpsertWithWhereUniqueWithoutAppInput;
+  deleteMany?: SessionScalarWhereInput[] | SessionScalarWhereInput;
+  updateMany?:
+    | SessionUpdateManyWithWhereNestedInput[]
+    | SessionUpdateManyWithWhereNestedInput;
+}
+
+export interface EventUpdateManyMutationInput {
+  type?: Int;
+  data?: Json;
+}
+
+export interface SessionUpdateWithWhereUniqueWithoutAppInput {
+  where: SessionWhereUniqueInput;
+  data: SessionUpdateWithoutAppDataInput;
+}
+
+export interface AppUpsertWithoutSessionsInput {
+  update: AppUpdateWithoutSessionsDataInput;
+  create: AppCreateWithoutSessionsInput;
+}
+
+export interface SessionUpdateWithoutAppDataInput {
+  eventCount?: Int;
+  lastEventTime?: DateTimeInput;
+  events?: EventUpdateManyWithoutSessionInput;
+}
+
+export interface AppUpdateWithoutSessionsDataInput {
+  name?: String;
+}
+
+export interface EventUpdateManyWithoutSessionInput {
+  create?: EventCreateWithoutSessionInput[] | EventCreateWithoutSessionInput;
+  delete?: EventWhereUniqueInput[] | EventWhereUniqueInput;
+  connect?: EventWhereUniqueInput[] | EventWhereUniqueInput;
+  disconnect?: EventWhereUniqueInput[] | EventWhereUniqueInput;
+  update?:
+    | EventUpdateWithWhereUniqueWithoutSessionInput[]
+    | EventUpdateWithWhereUniqueWithoutSessionInput;
+  upsert?:
+    | EventUpsertWithWhereUniqueWithoutSessionInput[]
+    | EventUpsertWithWhereUniqueWithoutSessionInput;
+  deleteMany?: EventScalarWhereInput[] | EventScalarWhereInput;
+  updateMany?:
+    | EventUpdateManyWithWhereNestedInput[]
+    | EventUpdateManyWithWhereNestedInput;
+}
+
+export interface SessionUpdateWithoutEventsDataInput {
+  eventCount?: Int;
+  lastEventTime?: DateTimeInput;
+  app?: AppUpdateOneWithoutSessionsInput;
+}
+
+export interface AppCreateOneWithoutSessionsInput {
+  create?: AppCreateWithoutSessionsInput;
+  connect?: AppWhereUniqueInput;
+}
+
+export interface SessionUpdateOneWithoutEventsInput {
+  create?: SessionCreateWithoutEventsInput;
+  update?: SessionUpdateWithoutEventsDataInput;
+  upsert?: SessionUpsertWithoutEventsInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
+  connect?: SessionWhereUniqueInput;
+}
+
+export interface EventUpdateWithoutSessionDataInput {
+  type?: Int;
+  data?: Json;
+}
+
+export interface AppCreateWithoutSessionsInput {
+  name: String;
+}
+
+export interface EventUpsertWithWhereUniqueWithoutSessionInput {
+  where: EventWhereUniqueInput;
+  update: EventUpdateWithoutSessionDataInput;
+  create: EventCreateWithoutSessionInput;
+}
+
+export interface SessionSubscriptionWhereInput {
   mutation_in?: MutationType[] | MutationType;
   updatedFields_contains?: String;
   updatedFields_contains_every?: String[] | String;
   updatedFields_contains_some?: String[] | String;
-  node?: UserWhereInput;
-  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+  node?: SessionWhereInput;
+  AND?: SessionSubscriptionWhereInput[] | SessionSubscriptionWhereInput;
+  OR?: SessionSubscriptionWhereInput[] | SessionSubscriptionWhereInput;
+  NOT?: SessionSubscriptionWhereInput[] | SessionSubscriptionWhereInput;
 }
 
-export interface UserUpdateWithoutPostsDataInput {
-  email?: String;
-  name?: String;
+export interface SessionCreateWithoutEventsInput {
+  eventCount: Int;
+  lastEventTime: DateTimeInput;
+  app?: AppCreateOneWithoutSessionsInput;
 }
 
-export interface PostUpdateManyWithWhereNestedInput {
-  where: PostScalarWhereInput;
-  data: PostUpdateManyDataInput;
+export interface AppSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: AppWhereInput;
+  AND?: AppSubscriptionWhereInput[] | AppSubscriptionWhereInput;
+  OR?: AppSubscriptionWhereInput[] | AppSubscriptionWhereInput;
+  NOT?: AppSubscriptionWhereInput[] | AppSubscriptionWhereInput;
 }
 
-export interface PostCreateManyWithoutAuthorInput {
-  create?: PostCreateWithoutAuthorInput[] | PostCreateWithoutAuthorInput;
-  connect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
+export interface EventUpdateManyWithWhereNestedInput {
+  where: EventScalarWhereInput;
+  data: EventUpdateManyDataInput;
 }
 
-export interface PostCreateWithoutAuthorInput {
-  title: String;
-  published?: Boolean;
+export interface SessionCreateInput {
+  eventCount: Int;
+  lastEventTime: DateTimeInput;
+  events?: EventCreateManyWithoutSessionInput;
+  app?: AppCreateOneWithoutSessionsInput;
 }
 
-export interface PostWhereInput {
+export interface EventUpdateManyDataInput {
+  type?: Int;
+  data?: Json;
+}
+
+export type EventWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
+export interface SessionUpsertWithWhereUniqueWithoutAppInput {
+  where: SessionWhereUniqueInput;
+  update: SessionUpdateWithoutAppDataInput;
+  create: SessionCreateWithoutAppInput;
+}
+
+export type SessionWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
+export interface SessionScalarWhereInput {
   id?: ID_Input;
   id_not?: ID_Input;
   id_in?: ID_Input[] | ID_Input;
@@ -376,77 +554,205 @@ export interface PostWhereInput {
   id_not_starts_with?: ID_Input;
   id_ends_with?: ID_Input;
   id_not_ends_with?: ID_Input;
-  title?: String;
-  title_not?: String;
-  title_in?: String[] | String;
-  title_not_in?: String[] | String;
-  title_lt?: String;
-  title_lte?: String;
-  title_gt?: String;
-  title_gte?: String;
-  title_contains?: String;
-  title_not_contains?: String;
-  title_starts_with?: String;
-  title_not_starts_with?: String;
-  title_ends_with?: String;
-  title_not_ends_with?: String;
-  published?: Boolean;
-  published_not?: Boolean;
-  AND?: PostWhereInput[] | PostWhereInput;
-  OR?: PostWhereInput[] | PostWhereInput;
-  NOT?: PostWhereInput[] | PostWhereInput;
+  eventCount?: Int;
+  eventCount_not?: Int;
+  eventCount_in?: Int[] | Int;
+  eventCount_not_in?: Int[] | Int;
+  eventCount_lt?: Int;
+  eventCount_lte?: Int;
+  eventCount_gt?: Int;
+  eventCount_gte?: Int;
+  lastEventTime?: DateTimeInput;
+  lastEventTime_not?: DateTimeInput;
+  lastEventTime_in?: DateTimeInput[] | DateTimeInput;
+  lastEventTime_not_in?: DateTimeInput[] | DateTimeInput;
+  lastEventTime_lt?: DateTimeInput;
+  lastEventTime_lte?: DateTimeInput;
+  lastEventTime_gt?: DateTimeInput;
+  lastEventTime_gte?: DateTimeInput;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  AND?: SessionScalarWhereInput[] | SessionScalarWhereInput;
+  OR?: SessionScalarWhereInput[] | SessionScalarWhereInput;
+  NOT?: SessionScalarWhereInput[] | SessionScalarWhereInput;
 }
 
-export interface UserUpsertWithoutPostsInput {
-  update: UserUpdateWithoutPostsDataInput;
-  create: UserCreateWithoutPostsInput;
+export interface SessionUpdateManyMutationInput {
+  eventCount?: Int;
+  lastEventTime?: DateTimeInput;
 }
 
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-  email?: String;
-}>;
+export interface SessionCreateOneWithoutEventsInput {
+  create?: SessionCreateWithoutEventsInput;
+  connect?: SessionWhereUniqueInput;
+}
 
-export interface UserUpdateManyMutationInput {
-  email?: String;
+export interface AppUpdateManyMutationInput {
   name?: String;
 }
 
-export interface PostUpdateWithWhereUniqueWithoutAuthorInput {
-  where: PostWhereUniqueInput;
-  data: PostUpdateWithoutAuthorDataInput;
+export interface SessionUpdateManyDataInput {
+  eventCount?: Int;
+  lastEventTime?: DateTimeInput;
 }
 
-export interface PostUpsertWithWhereUniqueWithoutAuthorInput {
-  where: PostWhereUniqueInput;
-  update: PostUpdateWithoutAuthorDataInput;
-  create: PostCreateWithoutAuthorInput;
+export interface SessionUpdateManyWithWhereNestedInput {
+  where: SessionScalarWhereInput;
+  data: SessionUpdateManyDataInput;
+}
+
+export interface SessionUpsertWithoutEventsInput {
+  update: SessionUpdateWithoutEventsDataInput;
+  create: SessionCreateWithoutEventsInput;
+}
+
+export interface SessionWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  eventCount?: Int;
+  eventCount_not?: Int;
+  eventCount_in?: Int[] | Int;
+  eventCount_not_in?: Int[] | Int;
+  eventCount_lt?: Int;
+  eventCount_lte?: Int;
+  eventCount_gt?: Int;
+  eventCount_gte?: Int;
+  lastEventTime?: DateTimeInput;
+  lastEventTime_not?: DateTimeInput;
+  lastEventTime_in?: DateTimeInput[] | DateTimeInput;
+  lastEventTime_not_in?: DateTimeInput[] | DateTimeInput;
+  lastEventTime_lt?: DateTimeInput;
+  lastEventTime_lte?: DateTimeInput;
+  lastEventTime_gt?: DateTimeInput;
+  lastEventTime_gte?: DateTimeInput;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  AND?: SessionWhereInput[] | SessionWhereInput;
+  OR?: SessionWhereInput[] | SessionWhereInput;
+  NOT?: SessionWhereInput[] | SessionWhereInput;
+}
+
+export interface EventUpdateInput {
+  type?: Int;
+  data?: Json;
+  session?: SessionUpdateOneWithoutEventsInput;
+}
+
+export interface AppUpdateOneWithoutSessionsInput {
+  create?: AppCreateWithoutSessionsInput;
+  update?: AppUpdateWithoutSessionsDataInput;
+  upsert?: AppUpsertWithoutSessionsInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
+  connect?: AppWhereUniqueInput;
 }
 
 export interface NodeNode {
   id: ID_Output;
 }
 
-export interface UserPreviousValues {
+export interface SessionPreviousValues {
   id: ID_Output;
-  email?: String;
-  name: String;
+  eventCount: Int;
+  lastEventTime: DateTimeOutput;
+  createdAt: DateTimeOutput;
 }
 
-export interface UserPreviousValuesPromise
-  extends Promise<UserPreviousValues>,
+export interface SessionPreviousValuesPromise
+  extends Promise<SessionPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  email: () => Promise<String>;
-  name: () => Promise<String>;
+  eventCount: () => Promise<Int>;
+  lastEventTime: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
 }
 
-export interface UserPreviousValuesSubscription
-  extends Promise<AsyncIterator<UserPreviousValues>>,
+export interface SessionPreviousValuesSubscription
+  extends Promise<AsyncIterator<SessionPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  email: () => Promise<AsyncIterator<String>>;
+  eventCount: () => Promise<AsyncIterator<Int>>;
+  lastEventTime: () => Promise<AsyncIterator<DateTimeOutput>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface AggregateApp {
+  count: Int;
+}
+
+export interface AggregateAppPromise
+  extends Promise<AggregateApp>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateAppSubscription
+  extends Promise<AsyncIterator<AggregateApp>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface AppPreviousValues {
+  id: ID_Output;
+  name: String;
+  createdAt: DateTimeOutput;
+}
+
+export interface AppPreviousValuesPromise
+  extends Promise<AppPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface AppPreviousValuesSubscription
+  extends Promise<AsyncIterator<AppPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface AppEdge {
+  node: App;
+  cursor: String;
+}
+
+export interface AppEdgePromise extends Promise<AppEdge>, Fragmentable {
+  node: <T = AppPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface AppEdgeSubscription
+  extends Promise<AsyncIterator<AppEdge>>,
+    Fragmentable {
+  node: <T = AppSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface PageInfo {
@@ -472,165 +778,72 @@ export interface PageInfoSubscription
   endCursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface User {
+export interface EventPreviousValues {
   id: ID_Output;
-  email?: String;
-  name: String;
+  type: Int;
+  data: Json;
+  createdAt: DateTimeOutput;
 }
 
-export interface UserPromise extends Promise<User>, Fragmentable {
+export interface EventPreviousValuesPromise
+  extends Promise<EventPreviousValues>,
+    Fragmentable {
   id: () => Promise<ID_Output>;
-  email: () => Promise<String>;
-  name: () => Promise<String>;
-  posts: <T = FragmentableArray<Post>>(args?: {
-    where?: PostWhereInput;
-    orderBy?: PostOrderByInput;
+  type: () => Promise<Int>;
+  data: () => Promise<Json>;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface EventPreviousValuesSubscription
+  extends Promise<AsyncIterator<EventPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  type: () => Promise<AsyncIterator<Int>>;
+  data: () => Promise<AsyncIterator<Json>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface Session {
+  id: ID_Output;
+  eventCount: Int;
+  lastEventTime: DateTimeOutput;
+  createdAt: DateTimeOutput;
+}
+
+export interface SessionPromise extends Promise<Session>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  eventCount: () => Promise<Int>;
+  lastEventTime: () => Promise<DateTimeOutput>;
+  events: <T = FragmentableArray<Event>>(args?: {
+    where?: EventWhereInput;
+    orderBy?: EventOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
   }) => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  app: <T = AppPromise>() => T;
 }
 
-export interface UserSubscription
-  extends Promise<AsyncIterator<User>>,
+export interface SessionSubscription
+  extends Promise<AsyncIterator<Session>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  email: () => Promise<AsyncIterator<String>>;
-  name: () => Promise<AsyncIterator<String>>;
-  posts: <T = Promise<AsyncIterator<PostSubscription>>>(args?: {
-    where?: PostWhereInput;
-    orderBy?: PostOrderByInput;
+  eventCount: () => Promise<AsyncIterator<Int>>;
+  lastEventTime: () => Promise<AsyncIterator<DateTimeOutput>>;
+  events: <T = Promise<AsyncIterator<EventSubscription>>>(args?: {
+    where?: EventWhereInput;
+    orderBy?: EventOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
   }) => T;
-}
-
-export interface PostEdge {
-  node: Post;
-  cursor: String;
-}
-
-export interface PostEdgePromise extends Promise<PostEdge>, Fragmentable {
-  node: <T = PostPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface PostEdgeSubscription
-  extends Promise<AsyncIterator<PostEdge>>,
-    Fragmentable {
-  node: <T = PostSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface PostSubscriptionPayload {
-  mutation: MutationType;
-  node: Post;
-  updatedFields: String[];
-  previousValues: PostPreviousValues;
-}
-
-export interface PostSubscriptionPayloadPromise
-  extends Promise<PostSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = PostPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = PostPreviousValuesPromise>() => T;
-}
-
-export interface PostSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<PostSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = PostSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = PostPreviousValuesSubscription>() => T;
-}
-
-export interface PostConnection {
-  pageInfo: PageInfo;
-  edges: PostEdge[];
-}
-
-export interface PostConnectionPromise
-  extends Promise<PostConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<PostEdge>>() => T;
-  aggregate: <T = AggregatePostPromise>() => T;
-}
-
-export interface PostConnectionSubscription
-  extends Promise<AsyncIterator<PostConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<PostEdgeSubscription>>>() => T;
-  aggregate: <T = AggregatePostSubscription>() => T;
-}
-
-export interface Post {
-  id: ID_Output;
-  title: String;
-  published: Boolean;
-}
-
-export interface PostPromise extends Promise<Post>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  title: () => Promise<String>;
-  published: () => Promise<Boolean>;
-  author: <T = UserPromise>() => T;
-}
-
-export interface PostSubscription
-  extends Promise<AsyncIterator<Post>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  title: () => Promise<AsyncIterator<String>>;
-  published: () => Promise<AsyncIterator<Boolean>>;
-  author: <T = UserSubscription>() => T;
-}
-
-export interface PostPreviousValues {
-  id: ID_Output;
-  title: String;
-  published: Boolean;
-}
-
-export interface PostPreviousValuesPromise
-  extends Promise<PostPreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  title: () => Promise<String>;
-  published: () => Promise<Boolean>;
-}
-
-export interface PostPreviousValuesSubscription
-  extends Promise<AsyncIterator<PostPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  title: () => Promise<AsyncIterator<String>>;
-  published: () => Promise<AsyncIterator<Boolean>>;
-}
-
-export interface AggregateUser {
-  count: Int;
-}
-
-export interface AggregateUserPromise
-  extends Promise<AggregateUser>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateUserSubscription
-  extends Promise<AsyncIterator<AggregateUser>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  app: <T = AppSubscription>() => T;
 }
 
 export interface BatchPayload {
@@ -649,86 +862,289 @@ export interface BatchPayloadSubscription
   count: () => Promise<AsyncIterator<Long>>;
 }
 
-export interface UserEdge {
-  node: User;
+export interface SessionEdge {
+  node: Session;
   cursor: String;
 }
 
-export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
-  node: <T = UserPromise>() => T;
+export interface SessionEdgePromise extends Promise<SessionEdge>, Fragmentable {
+  node: <T = SessionPromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface UserEdgeSubscription
-  extends Promise<AsyncIterator<UserEdge>>,
+export interface SessionEdgeSubscription
+  extends Promise<AsyncIterator<SessionEdge>>,
     Fragmentable {
-  node: <T = UserSubscription>() => T;
+  node: <T = SessionSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface AggregatePost {
+export interface AppConnection {
+  pageInfo: PageInfo;
+  edges: AppEdge[];
+}
+
+export interface AppConnectionPromise
+  extends Promise<AppConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<AppEdge>>() => T;
+  aggregate: <T = AggregateAppPromise>() => T;
+}
+
+export interface AppConnectionSubscription
+  extends Promise<AsyncIterator<AppConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<AppEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateAppSubscription>() => T;
+}
+
+export interface AggregateEvent {
   count: Int;
 }
 
-export interface AggregatePostPromise
-  extends Promise<AggregatePost>,
+export interface AggregateEventPromise
+  extends Promise<AggregateEvent>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregatePostSubscription
-  extends Promise<AsyncIterator<AggregatePost>>,
+export interface AggregateEventSubscription
+  extends Promise<AsyncIterator<AggregateEvent>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface UserSubscriptionPayload {
-  mutation: MutationType;
-  node: User;
-  updatedFields: String[];
-  previousValues: UserPreviousValues;
-}
-
-export interface UserSubscriptionPayloadPromise
-  extends Promise<UserSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = UserPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = UserPreviousValuesPromise>() => T;
-}
-
-export interface UserSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = UserSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = UserPreviousValuesSubscription>() => T;
-}
-
-export interface UserConnection {
+export interface EventConnection {
   pageInfo: PageInfo;
-  edges: UserEdge[];
+  edges: EventEdge[];
 }
 
-export interface UserConnectionPromise
-  extends Promise<UserConnection>,
+export interface EventConnectionPromise
+  extends Promise<EventConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<UserEdge>>() => T;
-  aggregate: <T = AggregateUserPromise>() => T;
+  edges: <T = FragmentableArray<EventEdge>>() => T;
+  aggregate: <T = AggregateEventPromise>() => T;
 }
 
-export interface UserConnectionSubscription
-  extends Promise<AsyncIterator<UserConnection>>,
+export interface EventConnectionSubscription
+  extends Promise<AsyncIterator<EventConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateUserSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<EventEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateEventSubscription>() => T;
 }
 
+export interface AppSubscriptionPayload {
+  mutation: MutationType;
+  node: App;
+  updatedFields: String[];
+  previousValues: AppPreviousValues;
+}
+
+export interface AppSubscriptionPayloadPromise
+  extends Promise<AppSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = AppPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = AppPreviousValuesPromise>() => T;
+}
+
+export interface AppSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<AppSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = AppSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = AppPreviousValuesSubscription>() => T;
+}
+
+export interface Event {
+  id: ID_Output;
+  type: Int;
+  data: Json;
+  createdAt: DateTimeOutput;
+}
+
+export interface EventPromise extends Promise<Event>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  type: () => Promise<Int>;
+  data: () => Promise<Json>;
+  createdAt: () => Promise<DateTimeOutput>;
+  session: <T = SessionPromise>() => T;
+}
+
+export interface EventSubscription
+  extends Promise<AsyncIterator<Event>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  type: () => Promise<AsyncIterator<Int>>;
+  data: () => Promise<AsyncIterator<Json>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  session: <T = SessionSubscription>() => T;
+}
+
+export interface EventSubscriptionPayload {
+  mutation: MutationType;
+  node: Event;
+  updatedFields: String[];
+  previousValues: EventPreviousValues;
+}
+
+export interface EventSubscriptionPayloadPromise
+  extends Promise<EventSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = EventPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = EventPreviousValuesPromise>() => T;
+}
+
+export interface EventSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<EventSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = EventSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = EventPreviousValuesSubscription>() => T;
+}
+
+export interface App {
+  id: ID_Output;
+  name: String;
+  createdAt: DateTimeOutput;
+}
+
+export interface AppPromise extends Promise<App>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  sessions: <T = FragmentableArray<Session>>(args?: {
+    where?: SessionWhereInput;
+    orderBy?: SessionOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface AppSubscription
+  extends Promise<AsyncIterator<App>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  sessions: <T = Promise<AsyncIterator<SessionSubscription>>>(args?: {
+    where?: SessionWhereInput;
+    orderBy?: SessionOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface SessionSubscriptionPayload {
+  mutation: MutationType;
+  node: Session;
+  updatedFields: String[];
+  previousValues: SessionPreviousValues;
+}
+
+export interface SessionSubscriptionPayloadPromise
+  extends Promise<SessionSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = SessionPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = SessionPreviousValuesPromise>() => T;
+}
+
+export interface SessionSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<SessionSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = SessionSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = SessionPreviousValuesSubscription>() => T;
+}
+
+export interface EventEdge {
+  node: Event;
+  cursor: String;
+}
+
+export interface EventEdgePromise extends Promise<EventEdge>, Fragmentable {
+  node: <T = EventPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface EventEdgeSubscription
+  extends Promise<AsyncIterator<EventEdge>>,
+    Fragmentable {
+  node: <T = EventSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface SessionConnection {
+  pageInfo: PageInfo;
+  edges: SessionEdge[];
+}
+
+export interface SessionConnectionPromise
+  extends Promise<SessionConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<SessionEdge>>() => T;
+  aggregate: <T = AggregateSessionPromise>() => T;
+}
+
+export interface SessionConnectionSubscription
+  extends Promise<AsyncIterator<SessionConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<SessionEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateSessionSubscription>() => T;
+}
+
+export interface AggregateSession {
+  count: Int;
+}
+
+export interface AggregateSessionPromise
+  extends Promise<AggregateSession>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateSessionSubscription
+  extends Promise<AsyncIterator<AggregateSession>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+/*
+DateTime scalar input type, allowing Date
+*/
+export type DateTimeInput = Date | string;
+
+/*
+DateTime scalar output type, which is always a string
+*/
+export type DateTimeOutput = string;
+
 export type Long = string;
+
+/*
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
+*/
+export type Int = number;
 
 /*
 The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
@@ -737,19 +1153,16 @@ export type ID_Input = string | number;
 export type ID_Output = string;
 
 /*
-The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-*/
-export type String = string;
-
-/*
 The `Boolean` scalar type represents `true` or `false`.
 */
 export type Boolean = boolean;
 
+export type Json = any;
+
 /*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
+The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
 */
-export type Int = number;
+export type String = string;
 
 /**
  * Model Metadata
@@ -757,11 +1170,15 @@ export type Int = number;
 
 export const models: Model[] = [
   {
-    name: "Post",
+    name: "App",
     embedded: false
   },
   {
-    name: "User",
+    name: "Event",
+    embedded: false
+  },
+  {
+    name: "Session",
     embedded: false
   }
 ];

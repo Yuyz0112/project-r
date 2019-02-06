@@ -1,25 +1,34 @@
+scalar DateTime
+scalar Json
+
 type Query {
-  publishedPosts: [Post!]!
-  post(postId: ID!): Post
-  postsByUser(userId: ID!): [Post!]!
+  apps: [App!]!
 }
 
 type Mutation {
-  createUser(name: String!): User
-  createDraft(title: String!, userId: ID!): Post
-  publish(postId: ID!): Post
+  createApp(name: String!): App
 }
 
-type User {
+type App {
   id: ID!
-  email: String
   name: String!
-  posts: [Post!]!
+  sessions: [Session!]!
+  createdAt: DateTime!
 }
 
-type Post {
+type Session {
   id: ID!
-  title: String!
-  published: Boolean!
-  author: User
+  eventCount: Int!
+  lastEventTime: DateTime!
+  events: [Event!]!
+  createdAt: DateTime!
+  app: App
+}
+
+type Event {
+  id: ID!
+  type: Int!
+  data: Json!
+  createdAt: DateTime!
+  session: Session
 }
