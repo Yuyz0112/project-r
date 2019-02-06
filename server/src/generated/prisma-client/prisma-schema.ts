@@ -159,8 +159,8 @@ type Event {
   id: ID!
   type: Int!
   data: Json!
+  sessionId: String!
   createdAt: DateTime!
-  session: Session
 }
 
 type EventConnection {
@@ -172,17 +172,7 @@ type EventConnection {
 input EventCreateInput {
   type: Int!
   data: Json!
-  session: SessionCreateOneWithoutEventsInput
-}
-
-input EventCreateManyWithoutSessionInput {
-  create: [EventCreateWithoutSessionInput!]
-  connect: [EventWhereUniqueInput!]
-}
-
-input EventCreateWithoutSessionInput {
-  type: Int!
-  data: Json!
+  sessionId: String!
 }
 
 type EventEdge {
@@ -197,6 +187,8 @@ enum EventOrderByInput {
   type_DESC
   data_ASC
   data_DESC
+  sessionId_ASC
+  sessionId_DESC
   createdAt_ASC
   createdAt_DESC
 }
@@ -205,43 +197,8 @@ type EventPreviousValues {
   id: ID!
   type: Int!
   data: Json!
+  sessionId: String!
   createdAt: DateTime!
-}
-
-input EventScalarWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  type: Int
-  type_not: Int
-  type_in: [Int!]
-  type_not_in: [Int!]
-  type_lt: Int
-  type_lte: Int
-  type_gt: Int
-  type_gte: Int
-  createdAt: DateTime
-  createdAt_not: DateTime
-  createdAt_in: [DateTime!]
-  createdAt_not_in: [DateTime!]
-  createdAt_lt: DateTime
-  createdAt_lte: DateTime
-  createdAt_gt: DateTime
-  createdAt_gte: DateTime
-  AND: [EventScalarWhereInput!]
-  OR: [EventScalarWhereInput!]
-  NOT: [EventScalarWhereInput!]
 }
 
 type EventSubscriptionPayload {
@@ -265,49 +222,13 @@ input EventSubscriptionWhereInput {
 input EventUpdateInput {
   type: Int
   data: Json
-  session: SessionUpdateOneWithoutEventsInput
-}
-
-input EventUpdateManyDataInput {
-  type: Int
-  data: Json
+  sessionId: String
 }
 
 input EventUpdateManyMutationInput {
   type: Int
   data: Json
-}
-
-input EventUpdateManyWithoutSessionInput {
-  create: [EventCreateWithoutSessionInput!]
-  delete: [EventWhereUniqueInput!]
-  connect: [EventWhereUniqueInput!]
-  disconnect: [EventWhereUniqueInput!]
-  update: [EventUpdateWithWhereUniqueWithoutSessionInput!]
-  upsert: [EventUpsertWithWhereUniqueWithoutSessionInput!]
-  deleteMany: [EventScalarWhereInput!]
-  updateMany: [EventUpdateManyWithWhereNestedInput!]
-}
-
-input EventUpdateManyWithWhereNestedInput {
-  where: EventScalarWhereInput!
-  data: EventUpdateManyDataInput!
-}
-
-input EventUpdateWithoutSessionDataInput {
-  type: Int
-  data: Json
-}
-
-input EventUpdateWithWhereUniqueWithoutSessionInput {
-  where: EventWhereUniqueInput!
-  data: EventUpdateWithoutSessionDataInput!
-}
-
-input EventUpsertWithWhereUniqueWithoutSessionInput {
-  where: EventWhereUniqueInput!
-  update: EventUpdateWithoutSessionDataInput!
-  create: EventCreateWithoutSessionInput!
+  sessionId: String
 }
 
 input EventWhereInput {
@@ -333,6 +254,20 @@ input EventWhereInput {
   type_lte: Int
   type_gt: Int
   type_gte: Int
+  sessionId: String
+  sessionId_not: String
+  sessionId_in: [String!]
+  sessionId_not_in: [String!]
+  sessionId_lt: String
+  sessionId_lte: String
+  sessionId_gt: String
+  sessionId_gte: String
+  sessionId_contains: String
+  sessionId_not_contains: String
+  sessionId_starts_with: String
+  sessionId_not_starts_with: String
+  sessionId_ends_with: String
+  sessionId_not_ends_with: String
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]
@@ -407,9 +342,7 @@ type Query {
 
 type Session {
   id: ID!
-  eventCount: Int!
-  lastEventTime: DateTime!
-  events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
+  lastEventTime: DateTime
   createdAt: DateTime!
   app: App
 }
@@ -421,9 +354,7 @@ type SessionConnection {
 }
 
 input SessionCreateInput {
-  eventCount: Int!
-  lastEventTime: DateTime!
-  events: EventCreateManyWithoutSessionInput
+  lastEventTime: DateTime
   app: AppCreateOneWithoutSessionsInput
 }
 
@@ -432,21 +363,8 @@ input SessionCreateManyWithoutAppInput {
   connect: [SessionWhereUniqueInput!]
 }
 
-input SessionCreateOneWithoutEventsInput {
-  create: SessionCreateWithoutEventsInput
-  connect: SessionWhereUniqueInput
-}
-
 input SessionCreateWithoutAppInput {
-  eventCount: Int!
-  lastEventTime: DateTime!
-  events: EventCreateManyWithoutSessionInput
-}
-
-input SessionCreateWithoutEventsInput {
-  eventCount: Int!
-  lastEventTime: DateTime!
-  app: AppCreateOneWithoutSessionsInput
+  lastEventTime: DateTime
 }
 
 type SessionEdge {
@@ -457,8 +375,6 @@ type SessionEdge {
 enum SessionOrderByInput {
   id_ASC
   id_DESC
-  eventCount_ASC
-  eventCount_DESC
   lastEventTime_ASC
   lastEventTime_DESC
   createdAt_ASC
@@ -467,8 +383,7 @@ enum SessionOrderByInput {
 
 type SessionPreviousValues {
   id: ID!
-  eventCount: Int!
-  lastEventTime: DateTime!
+  lastEventTime: DateTime
   createdAt: DateTime!
 }
 
@@ -487,14 +402,6 @@ input SessionScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  eventCount: Int
-  eventCount_not: Int
-  eventCount_in: [Int!]
-  eventCount_not_in: [Int!]
-  eventCount_lt: Int
-  eventCount_lte: Int
-  eventCount_gt: Int
-  eventCount_gte: Int
   lastEventTime: DateTime
   lastEventTime_not: DateTime
   lastEventTime_in: [DateTime!]
@@ -535,19 +442,15 @@ input SessionSubscriptionWhereInput {
 }
 
 input SessionUpdateInput {
-  eventCount: Int
   lastEventTime: DateTime
-  events: EventUpdateManyWithoutSessionInput
   app: AppUpdateOneWithoutSessionsInput
 }
 
 input SessionUpdateManyDataInput {
-  eventCount: Int
   lastEventTime: DateTime
 }
 
 input SessionUpdateManyMutationInput {
-  eventCount: Int
   lastEventTime: DateTime
 }
 
@@ -567,35 +470,13 @@ input SessionUpdateManyWithWhereNestedInput {
   data: SessionUpdateManyDataInput!
 }
 
-input SessionUpdateOneWithoutEventsInput {
-  create: SessionCreateWithoutEventsInput
-  update: SessionUpdateWithoutEventsDataInput
-  upsert: SessionUpsertWithoutEventsInput
-  delete: Boolean
-  disconnect: Boolean
-  connect: SessionWhereUniqueInput
-}
-
 input SessionUpdateWithoutAppDataInput {
-  eventCount: Int
   lastEventTime: DateTime
-  events: EventUpdateManyWithoutSessionInput
-}
-
-input SessionUpdateWithoutEventsDataInput {
-  eventCount: Int
-  lastEventTime: DateTime
-  app: AppUpdateOneWithoutSessionsInput
 }
 
 input SessionUpdateWithWhereUniqueWithoutAppInput {
   where: SessionWhereUniqueInput!
   data: SessionUpdateWithoutAppDataInput!
-}
-
-input SessionUpsertWithoutEventsInput {
-  update: SessionUpdateWithoutEventsDataInput!
-  create: SessionCreateWithoutEventsInput!
 }
 
 input SessionUpsertWithWhereUniqueWithoutAppInput {
@@ -619,14 +500,6 @@ input SessionWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  eventCount: Int
-  eventCount_not: Int
-  eventCount_in: [Int!]
-  eventCount_not_in: [Int!]
-  eventCount_lt: Int
-  eventCount_lte: Int
-  eventCount_gt: Int
-  eventCount_gte: Int
   lastEventTime: DateTime
   lastEventTime_not: DateTime
   lastEventTime_in: [DateTime!]

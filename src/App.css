@@ -1,32 +1,16 @@
 .App {
-  text-align: center;
+  padding: 1em;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+.Card {
+  padding: 1em;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.24);
+  margin-bottom: 2em;
+  cursor: pointer;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.Card pre {
+  background: #212121;
   color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  padding: .75em;
 }

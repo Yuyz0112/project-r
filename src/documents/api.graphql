@@ -1,0 +1,12 @@
+query getApps {
+  apps {
+    id
+    name
+    sessions {
+      id,
+      lastEventTime,
+      createdAt
+    }
+    createdAt
+  }
+}

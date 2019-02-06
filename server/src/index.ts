@@ -1,5 +1,6 @@
 import * as path from 'path';
-import { GraphQLServer } from 'graphql-yoga';
+import { GraphQLServer, Options } from 'graphql-yoga';
+import * as bodyParser from 'body-parser';
 import { prisma } from './generated/prisma-client';
 import {
   Resolvers,
@@ -20,6 +21,13 @@ const resolvers: Resolvers = {
         name: args.name,
       });
     },
+    listEvents(parent, args, context) {
+      return context.prisma.events({
+        where: {
+          sessionId: args.sessionId,
+        },
+      });
+    },
   },
   App: {
     ...AppResolvers.defaultResolvers,
@@ -29,18 +37,12 @@ const resolvers: Resolvers = {
   },
   Session: {
     ...SessionResolvers.defaultResolvers,
-    events(parent, args, context) {
-      return context.prisma.session({ id: parent.id }).events();
-    },
     app(parent, args, context) {
       return context.prisma.session({ id: parent.id }).app();
     },
   },
   Event: {
     ...EventResolvers.defaultResolvers,
-    session(parent, args, context) {
-      return context.prisma.event({ id: parent.id }).session();
-    },
   },
 };
 
@@ -53,12 +55,50 @@ const server = new GraphQLServer({
   },
 });
 
-const options = {
+const options: Options = {
   port: 4000,
   endpoint: '/graphql',
   subscriptions: '/subscriptions',
   playground: '/playground',
+  bodyParserOptions: {
+    limit: '50mb',
+  },
 };
+
+server.use(bodyParser.json({ limit: '50mb' }));
+
+server.post('/sessions', async (req, res) => {
+  const newSession = await prisma.createSession({
+    app: {
+      connect: {
+        id: req.body.appId,
+      },
+    },
+  });
+  res.json(newSession);
+});
+
+server.post('/events:batch', async (req, res) => {
+  const { sessionId, events } = req.body;
+  for (const event of events) {
+    prisma.createEvent({
+      ...event,
+      sessionId: sessionId,
+    });
+  }
+  if (events.length > 0) {
+    const lastEvent = events[events.length - 1];
+    await prisma.updateSession({
+      data: {
+        lastEventTime: new Date(lastEvent.timestamp),
+      },
+      where: {
+        id: sessionId,
+      },
+    });
+  }
+  res.send('ok');
+});
 
 server.start(options, ({ port }) =>
   console.log(

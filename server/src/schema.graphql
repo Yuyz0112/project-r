@@ -7,6 +7,7 @@ type Query {
 
 type Mutation {
   createApp(name: String!): App
+  listEvents(sessionId: String!): [Event!]!
 }
 
 type App {
@@ -18,17 +19,15 @@ type App {
 
 type Session {
   id: ID!
-  eventCount: Int!
-  lastEventTime: DateTime!
-  events: [Event!]!
+  lastEventTime: DateTime
   createdAt: DateTime!
-  app: App
+  app: App!
 }
 
 type Event {
   id: ID!
   type: Int!
   data: Json!
+  sessionId: String!
   createdAt: DateTime!
-  session: Session
 }

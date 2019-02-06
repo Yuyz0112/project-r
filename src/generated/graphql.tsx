@@ -1,21 +1,41 @@
+export type Maybe<T> = T | null;
+
+export type DateTime = string;
+
+export type Json = any;
+
 // ====================================================
 // Documents
 // ====================================================
 
-export type GetPublishedPostsVariables = {};
+export type GetAppsVariables = {};
 
-export type GetPublishedPostsQuery = {
+export type GetAppsQuery = {
   __typename?: 'Query';
 
-  publishedPosts: GetPublishedPostsPublishedPosts[];
+  apps: GetAppsApps[];
 };
 
-export type GetPublishedPostsPublishedPosts = {
-  __typename?: 'Post';
+export type GetAppsApps = {
+  __typename?: 'App';
 
   id: string;
 
-  title: string;
+  name: string;
+
+  sessions: GetAppsSessions[];
+
+  createdAt: string;
+};
+
+export type GetAppsSessions = {
+  __typename?: 'Session';
+
+  id: string;
+
+  lastEventTime: Maybe<string>;
+
+  createdAt: string;
 };
 
 import * as ReactApollo from 'react-apollo';
@@ -27,46 +47,50 @@ import gql from 'graphql-tag';
 // Components
 // ====================================================
 
-export const GetPublishedPostsDocument = gql`
-  query getPublishedPosts {
-    publishedPosts {
+export const GetAppsDocument = gql`
+  query getApps {
+    apps {
       id
-      title
+      name
+      sessions {
+        id
+        lastEventTime
+        createdAt
+      }
+      createdAt
     }
   }
 `;
-export class GetPublishedPostsComponent extends React.Component<
-  Partial<
-    ReactApollo.QueryProps<GetPublishedPostsQuery, GetPublishedPostsVariables>
-  >
+export class GetAppsComponent extends React.Component<
+  Partial<ReactApollo.QueryProps<GetAppsQuery, GetAppsVariables>>
 > {
   render() {
     return (
-      <ReactApollo.Query<GetPublishedPostsQuery, GetPublishedPostsVariables>
-        query={GetPublishedPostsDocument}
+      <ReactApollo.Query<GetAppsQuery, GetAppsVariables>
+        query={GetAppsDocument}
         {...(this as any)['props'] as any}
       />
     );
   }
 }
-export type GetPublishedPostsProps<TChildProps = any> = Partial<
-  ReactApollo.DataProps<GetPublishedPostsQuery, GetPublishedPostsVariables>
+export type GetAppsProps<TChildProps = any> = Partial<
+  ReactApollo.DataProps<GetAppsQuery, GetAppsVariables>
 > &
   TChildProps;
-export function GetPublishedPostsHOC<TProps, TChildProps = any>(
+export function GetAppsHOC<TProps, TChildProps = any>(
   operationOptions:
     | ReactApollo.OperationOption<
         TProps,
-        GetPublishedPostsQuery,
-        GetPublishedPostsVariables,
-        GetPublishedPostsProps<TChildProps>
+        GetAppsQuery,
+        GetAppsVariables,
+        GetAppsProps<TChildProps>
       >
     | undefined,
 ) {
   return ReactApollo.graphql<
     TProps,
-    GetPublishedPostsQuery,
-    GetPublishedPostsVariables,
-    GetPublishedPostsProps<TChildProps>
-  >(GetPublishedPostsDocument, operationOptions);
+    GetAppsQuery,
+    GetAppsVariables,
+    GetAppsProps<TChildProps>
+  >(GetAppsDocument, operationOptions);
 }
