@@ -75,11 +75,23 @@ const options: Options = {
 server.use(bodyParser.json({ limit: '50mb' }));
 
 if (process.env.SECRET) {
-  server.use(basicAuth({
+  const basicAuthMiddleware = basicAuth({
     users: {
       'admin': process.env.SECRET
     }
-  }))
+  })
+  server.use((req, res, next) => {
+    if (
+      req.url === options.playground ||
+      req.url === options.subscriptions ||
+      req.url === options.endpoint ||
+      req.url === '/sessions' ||
+      req.url === '/events:batch'
+    ) {
+      return next();
+    }
+    return basicAuthMiddleware(req, res, next);
+  })
 }
 
 server.post('/sessions', async (req, res) => {
@@ -119,9 +131,9 @@ server.post('/events:batch', async (req, res) => {
 server.express.use(express.static(path.resolve(__dirname, '../../build')));
 server.express.get('*', (req, res, next) => {
   if (
-    req.url == options.playground ||
-    req.url == options.subscriptions ||
-    req.url == options.endpoint
+    req.url === options.playground ||
+    req.url === options.subscriptions ||
+    req.url === options.endpoint
   ) {
     return next();
   }
