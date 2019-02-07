@@ -2,6 +2,7 @@ import * as path from 'path';
 import { GraphQLServer, Options } from 'graphql-yoga';
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
+import * as basicAuth from 'express-basic-auth';
 import { prisma } from './generated/prisma-client';
 import {
   Resolvers,
@@ -72,6 +73,14 @@ const options: Options = {
 };
 
 server.use(bodyParser.json({ limit: '50mb' }));
+
+if (process.env.SECRET) {
+  server.use(basicAuth({
+    users: {
+      'admin': process.env.SECRET
+    }
+  }))
+}
 
 server.post('/sessions', async (req, res) => {
   const newSession = await prisma.createSession({

@@ -6,8 +6,15 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+const token = localStorage.getItem('token');
 const client = new ApolloClient({
-  uri: '/graphql',
+  uri:
+    process.env.NODE_ENV === 'production'
+      ? '/graphql'
+      : 'http://localhost:4000/graphql',
+  headers: {
+    Authorization: token ? `Basic ${token}` : '',
+  },
 });
 
 const Root = () => (

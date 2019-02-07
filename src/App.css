@@ -1,3 +1,14 @@
+.Login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 100px;
+}
+
+.Login > * {
+  line-height: 30px;
+}
+
 .App {
   padding: 1em;
 }
