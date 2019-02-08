@@ -7,7 +7,7 @@ const HOST = process.env.REACT_APP_BACKEND
 
 const getCode = (
   id: string,
-) => `<script src="https://cdn.jsdelivr.net/npm/rrweb@latest/dist/record/rrweb-record.min.js"></script>
+) => `<script src="https://cdn.jsdelivr.net/npm/rrweb@0.7.9/dist/record/rrweb-record.min.js"></script>
 <script>
   let events = [];
 
