@@ -1,4 +1,6 @@
 import * as path from 'path';
+import * as fs from 'fs';
+import { promisify } from 'util';
 import { GraphQLServer, Options } from 'graphql-yoga';
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
@@ -11,18 +13,31 @@ import {
   EventResolvers,
 } from './generated/graphqlgen';
 
+const writeFile = promisify(fs.writeFile);
+const readFile = promisify(fs.readFile);
+
 const resolvers: Resolvers = {
   Query: {
     apps(parent, args, context) {
       return context.prisma.apps({});
     },
-    events(parent, args, context) {
-      return context.prisma.events({
+    async events(parent, args, context) {
+      const events = await context.prisma.events({
         where: {
           sessionId: args.sessionId,
         },
         orderBy: 'timestamp_ASC',
       });
+      for (let i = 0; i < events.length; i++) {
+        if (events[i].type === 2) {
+          const data = await readFile(
+            path.resolve(__dirname, `../../storage/${events[i].id}`),
+            'utf8',
+          );
+          events[i].data = data;
+        }
+      }
+      return events;
     },
   },
   Mutation: {
@@ -108,12 +123,19 @@ server.post('/sessions', async (req, res) => {
 server.post('/events:batch', async (req, res) => {
   const { sessionId, events } = req.body;
   for (const event of events) {
-    await prisma.createEvent({
+    const data = event.type === 2 ? '' : JSON.stringify(event.data);
+    const result = await prisma.createEvent({
       ...event,
       timestamp: new Date(event.timestamp),
       sessionId: sessionId,
-      data: JSON.stringify(event.data),
+      data,
     });
+    if (event.type === 2) {
+      await writeFile(
+        path.resolve(__dirname, `../../storage/${result.id}`),
+        JSON.stringify(event.data),
+      );
+    }
   }
   if (events.length > 0) {
     const lastEvent = events[events.length - 1];
