@@ -158,7 +158,7 @@ scalar DateTime
 type Event {
   id: ID!
   type: Int!
-  data: Json!
+  data: String!
   timestamp: DateTime!
   sessionId: String!
   createdAt: DateTime!
@@ -172,7 +172,7 @@ type EventConnection {
 
 input EventCreateInput {
   type: Int!
-  data: Json!
+  data: String!
   timestamp: DateTime!
   sessionId: String!
 }
@@ -200,7 +200,7 @@ enum EventOrderByInput {
 type EventPreviousValues {
   id: ID!
   type: Int!
-  data: Json!
+  data: String!
   timestamp: DateTime!
   sessionId: String!
   createdAt: DateTime!
@@ -226,14 +226,14 @@ input EventSubscriptionWhereInput {
 
 input EventUpdateInput {
   type: Int
-  data: Json
+  data: String
   timestamp: DateTime
   sessionId: String
 }
 
 input EventUpdateManyMutationInput {
   type: Int
-  data: Json
+  data: String
   timestamp: DateTime
   sessionId: String
 }
@@ -261,6 +261,20 @@ input EventWhereInput {
   type_lte: Int
   type_gt: Int
   type_gte: Int
+  data: String
+  data_not: String
+  data_in: [String!]
+  data_not_in: [String!]
+  data_lt: String
+  data_lte: String
+  data_gt: String
+  data_gte: String
+  data_contains: String
+  data_not_contains: String
+  data_starts_with: String
+  data_not_starts_with: String
+  data_ends_with: String
+  data_not_ends_with: String
   timestamp: DateTime
   timestamp_not: DateTime
   timestamp_in: [DateTime!]
@@ -299,8 +313,6 @@ input EventWhereInput {
 input EventWhereUniqueInput {
   id: ID
 }
-
-scalar Json
 
 scalar Long
 

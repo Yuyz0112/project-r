@@ -77,9 +77,9 @@ server.use(bodyParser.json({ limit: '50mb' }));
 if (process.env.SECRET) {
   const basicAuthMiddleware = basicAuth({
     users: {
-      'admin': process.env.SECRET
-    }
-  })
+      admin: process.env.SECRET,
+    },
+  });
   server.use((req, res, next) => {
     if (
       req.url === options.playground ||
@@ -91,7 +91,7 @@ if (process.env.SECRET) {
       return next();
     }
     return basicAuthMiddleware(req, res, next);
-  })
+  });
 }
 
 server.post('/sessions', async (req, res) => {
@@ -112,6 +112,7 @@ server.post('/events:batch', async (req, res) => {
       ...event,
       timestamp: new Date(event.timestamp),
       sessionId: sessionId,
+      data: JSON.stringify(event.data),
     });
   }
   if (events.length > 0) {

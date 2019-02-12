@@ -27,7 +27,7 @@ type Session {
 type Event {
   id: ID!
   type: Int!
-  data: Json!
+  data: String!
   timestamp: DateTime!
   sessionId: String!
 }
