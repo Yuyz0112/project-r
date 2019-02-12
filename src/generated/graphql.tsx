@@ -55,7 +55,7 @@ export type GetEventsEvents = {
 
   type: number;
 
-  data: Json;
+  data: string;
 };
 
 import * as ReactApollo from 'react-apollo';

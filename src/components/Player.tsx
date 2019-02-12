@@ -14,6 +14,7 @@ class Player extends Component<IPlayerProps> {
       data: {
         events: events.map(event => ({
           ...event,
+          data: JSON.parse(event.data),
           timestamp: new Date(event.timestamp).getTime()
         })),
         autoPlay: true,
