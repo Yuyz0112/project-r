@@ -5,3 +5,4 @@ output: ./src/generated/graphqlgen.ts
 models:
   files:
     - ./src/generated/prisma-client/index.ts
+    - ./src/model.ts

@@ -158,7 +158,7 @@ scalar DateTime
 type Event {
   id: ID!
   type: Int!
-  data: String!
+  data: [String!]!
   timestamp: DateTime!
   sessionId: String!
   createdAt: DateTime!
@@ -170,9 +170,13 @@ type EventConnection {
   aggregate: AggregateEvent!
 }
 
+input EventCreatedataInput {
+  set: [String!]
+}
+
 input EventCreateInput {
   type: Int!
-  data: String!
+  data: EventCreatedataInput
   timestamp: DateTime!
   sessionId: String!
 }
@@ -187,8 +191,6 @@ enum EventOrderByInput {
   id_DESC
   type_ASC
   type_DESC
-  data_ASC
-  data_DESC
   timestamp_ASC
   timestamp_DESC
   sessionId_ASC
@@ -200,7 +202,7 @@ enum EventOrderByInput {
 type EventPreviousValues {
   id: ID!
   type: Int!
-  data: String!
+  data: [String!]!
   timestamp: DateTime!
   sessionId: String!
   createdAt: DateTime!
@@ -224,16 +226,20 @@ input EventSubscriptionWhereInput {
   NOT: [EventSubscriptionWhereInput!]
 }
 
+input EventUpdatedataInput {
+  set: [String!]
+}
+
 input EventUpdateInput {
   type: Int
-  data: String
+  data: EventUpdatedataInput
   timestamp: DateTime
   sessionId: String
 }
 
 input EventUpdateManyMutationInput {
   type: Int
-  data: String
+  data: EventUpdatedataInput
   timestamp: DateTime
   sessionId: String
 }
@@ -261,20 +267,6 @@ input EventWhereInput {
   type_lte: Int
   type_gt: Int
   type_gte: Int
-  data: String
-  data_not: String
-  data_in: [String!]
-  data_not_in: [String!]
-  data_lt: String
-  data_lte: String
-  data_gt: String
-  data_gte: String
-  data_contains: String
-  data_not_contains: String
-  data_starts_with: String
-  data_not_starts_with: String
-  data_ends_with: String
-  data_not_ends_with: String
   timestamp: DateTime
   timestamp_not: DateTime
   timestamp_in: [DateTime!]

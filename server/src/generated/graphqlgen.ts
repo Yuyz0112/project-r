@@ -2,6 +2,7 @@
 
 import { GraphQLResolveInfo } from 'graphql';
 import { App, Session, Event } from './prisma-client';
+import { EventWithStringData } from '../model';
 import { Context } from '../context';
 
 export namespace QueryResolvers {
@@ -34,7 +35,7 @@ export namespace QueryResolvers {
         args: ArgsEvents,
         ctx: Context,
         info: GraphQLResolveInfo,
-      ) => Event[] | Promise<Event[]>)
+      ) => EventWithStringData[] | Promise<EventWithStringData[]>)
     | {
         fragment: string;
         resolver: (
@@ -42,7 +43,7 @@ export namespace QueryResolvers {
           args: ArgsEvents,
           ctx: Context,
           info: GraphQLResolveInfo,
-        ) => Event[] | Promise<Event[]>;
+        ) => EventWithStringData[] | Promise<EventWithStringData[]>;
       };
 
   export interface Type {
@@ -69,7 +70,7 @@ export namespace QueryResolvers {
           args: ArgsEvents,
           ctx: Context,
           info: GraphQLResolveInfo,
-        ) => Event[] | Promise<Event[]>)
+        ) => EventWithStringData[] | Promise<EventWithStringData[]>)
       | {
           fragment: string;
           resolver: (
@@ -77,7 +78,7 @@ export namespace QueryResolvers {
             args: ArgsEvents,
             ctx: Context,
             info: GraphQLResolveInfo,
-          ) => Event[] | Promise<Event[]>;
+          ) => EventWithStringData[] | Promise<EventWithStringData[]>;
         };
   }
 }
@@ -375,6 +376,232 @@ export namespace SessionResolvers {
   }
 }
 
+export namespace EventWithStringDataResolvers {
+  export const defaultResolvers = {
+    id: (parent: EventWithStringData) => parent.id,
+    type: (parent: EventWithStringData) => parent.type,
+    data: (parent: EventWithStringData) => parent.data,
+    timestamp: (parent: EventWithStringData) => parent.timestamp,
+    sessionId: (parent: EventWithStringData) => parent.sessionId,
+  };
+
+  export type IdResolver =
+    | ((
+        parent: EventWithStringData,
+        args: {},
+        ctx: Context,
+        info: GraphQLResolveInfo,
+      ) => string | Promise<string>)
+    | {
+        fragment: string;
+        resolver: (
+          parent: EventWithStringData,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => string | Promise<string>;
+      };
+
+  export type TypeResolver =
+    | ((
+        parent: EventWithStringData,
+        args: {},
+        ctx: Context,
+        info: GraphQLResolveInfo,
+      ) => number | Promise<number>)
+    | {
+        fragment: string;
+        resolver: (
+          parent: EventWithStringData,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => number | Promise<number>;
+      };
+
+  export type DataResolver =
+    | ((
+        parent: EventWithStringData,
+        args: {},
+        ctx: Context,
+        info: GraphQLResolveInfo,
+      ) => string | Promise<string>)
+    | {
+        fragment: string;
+        resolver: (
+          parent: EventWithStringData,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => string | Promise<string>;
+      };
+
+  export type TimestampResolver =
+    | ((
+        parent: EventWithStringData,
+        args: {},
+        ctx: Context,
+        info: GraphQLResolveInfo,
+      ) => string | Promise<string>)
+    | {
+        fragment: string;
+        resolver: (
+          parent: EventWithStringData,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => string | Promise<string>;
+      };
+
+  export type SessionIdResolver =
+    | ((
+        parent: EventWithStringData,
+        args: {},
+        ctx: Context,
+        info: GraphQLResolveInfo,
+      ) => string | Promise<string>)
+    | {
+        fragment: string;
+        resolver: (
+          parent: EventWithStringData,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => string | Promise<string>;
+      };
+
+  export interface Type {
+    id:
+      | ((
+          parent: EventWithStringData,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => string | Promise<string>)
+      | {
+          fragment: string;
+          resolver: (
+            parent: EventWithStringData,
+            args: {},
+            ctx: Context,
+            info: GraphQLResolveInfo,
+          ) => string | Promise<string>;
+        };
+
+    type:
+      | ((
+          parent: EventWithStringData,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => number | Promise<number>)
+      | {
+          fragment: string;
+          resolver: (
+            parent: EventWithStringData,
+            args: {},
+            ctx: Context,
+            info: GraphQLResolveInfo,
+          ) => number | Promise<number>;
+        };
+
+    data:
+      | ((
+          parent: EventWithStringData,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => string | Promise<string>)
+      | {
+          fragment: string;
+          resolver: (
+            parent: EventWithStringData,
+            args: {},
+            ctx: Context,
+            info: GraphQLResolveInfo,
+          ) => string | Promise<string>;
+        };
+
+    timestamp:
+      | ((
+          parent: EventWithStringData,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => string | Promise<string>)
+      | {
+          fragment: string;
+          resolver: (
+            parent: EventWithStringData,
+            args: {},
+            ctx: Context,
+            info: GraphQLResolveInfo,
+          ) => string | Promise<string>;
+        };
+
+    sessionId:
+      | ((
+          parent: EventWithStringData,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => string | Promise<string>)
+      | {
+          fragment: string;
+          resolver: (
+            parent: EventWithStringData,
+            args: {},
+            ctx: Context,
+            info: GraphQLResolveInfo,
+          ) => string | Promise<string>;
+        };
+  }
+}
+
+export namespace MutationResolvers {
+  export const defaultResolvers = {};
+
+  export interface ArgsCreateApp {
+    name: string;
+  }
+
+  export type CreateAppResolver =
+    | ((
+        parent: undefined,
+        args: ArgsCreateApp,
+        ctx: Context,
+        info: GraphQLResolveInfo,
+      ) => App | null | Promise<App | null>)
+    | {
+        fragment: string;
+        resolver: (
+          parent: undefined,
+          args: ArgsCreateApp,
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => App | null | Promise<App | null>;
+      };
+
+  export interface Type {
+    createApp:
+      | ((
+          parent: undefined,
+          args: ArgsCreateApp,
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => App | null | Promise<App | null>)
+      | {
+          fragment: string;
+          resolver: (
+            parent: undefined,
+            args: ArgsCreateApp,
+            ctx: Context,
+            info: GraphQLResolveInfo,
+          ) => App | null | Promise<App | null>;
+        };
+  }
+}
+
 export namespace EventResolvers {
   export const defaultResolvers = {
     id: (parent: Event) => parent.id,
@@ -424,7 +651,7 @@ export namespace EventResolvers {
         args: {},
         ctx: Context,
         info: GraphQLResolveInfo,
-      ) => string | Promise<string>)
+      ) => string[] | Promise<string[]>)
     | {
         fragment: string;
         resolver: (
@@ -432,7 +659,7 @@ export namespace EventResolvers {
           args: {},
           ctx: Context,
           info: GraphQLResolveInfo,
-        ) => string | Promise<string>;
+        ) => string[] | Promise<string[]>;
       };
 
   export type TimestampResolver =
@@ -510,7 +737,7 @@ export namespace EventResolvers {
           args: {},
           ctx: Context,
           info: GraphQLResolveInfo,
-        ) => string | Promise<string>)
+        ) => string[] | Promise<string[]>)
       | {
           fragment: string;
           resolver: (
@@ -518,7 +745,7 @@ export namespace EventResolvers {
             args: {},
             ctx: Context,
             info: GraphQLResolveInfo,
-          ) => string | Promise<string>;
+          ) => string[] | Promise<string[]>;
         };
 
     timestamp:
@@ -557,54 +784,11 @@ export namespace EventResolvers {
   }
 }
 
-export namespace MutationResolvers {
-  export const defaultResolvers = {};
-
-  export interface ArgsCreateApp {
-    name: string;
-  }
-
-  export type CreateAppResolver =
-    | ((
-        parent: undefined,
-        args: ArgsCreateApp,
-        ctx: Context,
-        info: GraphQLResolveInfo,
-      ) => App | null | Promise<App | null>)
-    | {
-        fragment: string;
-        resolver: (
-          parent: undefined,
-          args: ArgsCreateApp,
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => App | null | Promise<App | null>;
-      };
-
-  export interface Type {
-    createApp:
-      | ((
-          parent: undefined,
-          args: ArgsCreateApp,
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => App | null | Promise<App | null>)
-      | {
-          fragment: string;
-          resolver: (
-            parent: undefined,
-            args: ArgsCreateApp,
-            ctx: Context,
-            info: GraphQLResolveInfo,
-          ) => App | null | Promise<App | null>;
-        };
-  }
-}
-
 export interface Resolvers {
   Query: QueryResolvers.Type;
   App: AppResolvers.Type;
   Session: SessionResolvers.Type;
-  Event: EventResolvers.Type;
+  EventWithStringData: EventWithStringDataResolvers.Type;
   Mutation: MutationResolvers.Type;
+  Event: EventResolvers.Type;
 }

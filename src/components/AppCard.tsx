@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { GetAppsApps } from '../generated/graphql';
 import SessionModal from './SessionModal';
 
-const HOST = process.env.REACT_APP_BACKEND
+const HOST = process.env.REACT_APP_BACKEND || window.location.origin
 
 const getCode = (
   id: string,

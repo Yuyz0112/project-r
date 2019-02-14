@@ -1,9 +1,8 @@
 scalar DateTime
-scalar Json
 
 type Query {
   apps: [App!]!
-  events(sessionId: String!): [Event!]!
+  events(sessionId: String!): [EventWithStringData!]!
 }
 
 type Mutation {
@@ -25,6 +24,14 @@ type Session {
 }
 
 type Event {
+  id: ID!
+  type: Int!
+  data: [String!]!
+  timestamp: DateTime!
+  sessionId: String!
+}
+
+type EventWithStringData {
   id: ID!
   type: Int!
   data: String!
