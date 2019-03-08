@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import dayjs from 'dayjs';
 import { GetAppsApps } from '../generated/graphql';
 import SessionModal from './SessionModal';
+import { Modal } from 'antd';
 
 const HOST = process.env.REACT_APP_BACKEND || window.location.origin
 
@@ -50,13 +51,21 @@ const getCode = (
   }
 </script>`;
 
-interface IAppCardProps extends GetAppsApps {}
+interface IAppCardProps extends GetAppsApps { }
 
 interface IAppCardState {
   collapse: boolean;
   showSession: string | null;
 }
 
+const btnStyle = {
+  height: '30px',
+  lineHeight: '20px',
+  border: 'none',
+  borderRadius: '3px',
+  background: 'gray',
+  outline: 'none'
+}
 class AppCard extends Component<IAppCardProps, IAppCardState> {
   constructor(props: IAppCardProps) {
     super(props);
@@ -67,13 +76,13 @@ class AppCard extends Component<IAppCardProps, IAppCardState> {
   }
 
   render() {
-    const { id, name, sessions } = this.props;
+    const { id, sessions } = this.props;
     const { collapse, showSession } = this.state;
     return (
       <div className="Card" key={id}>
-        <p>name: {name}</p>
+        {/* <p>name: {name}</p> */}
         <p>
-          <button onClick={() => this.setState({ collapse: !collapse })}>
+          <button onClick={() => this.setState({ collapse: !collapse })} style={btnStyle}>
             {collapse ? 'Show install code' : 'Hide'}
           </button>
         </p>
@@ -87,6 +96,7 @@ class AppCard extends Component<IAppCardProps, IAppCardState> {
             className="Session"
             key={session.id}
             onClick={() => this.setState({ showSession: session.id })}
+            style={{ lineHeight: '36px', borderBottom: '1px solid #ddd' }}
           >
             <p>
               Created at:{' '}
@@ -102,12 +112,12 @@ class AppCard extends Component<IAppCardProps, IAppCardState> {
             </p>
           </div>
         ))}
-        {showSession && (
-          <SessionModal
-            sessionId={showSession}
-            onClose={() => this.setState({ showSession: null })}
-          />
-        )}
+          {showSession && (
+            <SessionModal
+              sessionId={showSession}
+              onClose={() => this.setState({ showSession: null })}
+            />
+          )}
       </div>
     );
   }
