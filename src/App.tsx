@@ -9,7 +9,6 @@ interface IAppState {
   password: string;
   token: string | null;
   openKeys: Array<string>;
-  // rootSubmenuKeys: string[];
 }
 
 const SubMenu = Menu.SubMenu;
@@ -33,7 +32,7 @@ class App extends Component<{}, IAppState> {
   }
 
   onOpenChange(openKeys: string[]) {
-    const latestOpenKey: any = openKeys.find(key => this.state.openKeys.indexOf(key) === -1);
+    const latestOpenKey: string | void = openKeys.find(key => this.state.openKeys.indexOf(key) === -1);
     if (!latestOpenKey) {
       this.setState({ openKeys });
     } else {
