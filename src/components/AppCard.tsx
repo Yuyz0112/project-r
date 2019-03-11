@@ -88,7 +88,7 @@ class AppCard extends Component<IAppCardProps, IAppCardState> {
         </p>
         {!collapse && (
           <pre>
-            <code>{getCode(id)}</code>
+            <code style={{lineHeight: '16px'}}>{getCode(id)}</code>
           </pre>
         )}
         {sessions.map(session => (
@@ -112,12 +112,12 @@ class AppCard extends Component<IAppCardProps, IAppCardState> {
             </p>
           </div>
         ))}
-          {showSession && (
-            <SessionModal
-              sessionId={showSession}
-              onClose={() => this.setState({ showSession: null })}
-            />
-          )}
+        {showSession && (
+          <SessionModal
+            sessionId={showSession}
+            onClose={() => this.setState({ showSession: null })}
+          />
+        )}
       </div>
     );
   }

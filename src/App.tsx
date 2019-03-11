@@ -9,7 +9,7 @@ interface IAppState {
   password: string;
   token: string | null;
   openKeys: Array<string>;
-  rootSubmenuKeys: string[];
+  // rootSubmenuKeys: string[];
 }
 
 const SubMenu = Menu.SubMenu;
@@ -20,12 +20,12 @@ class App extends Component<{}, IAppState> {
       password: '',
       token: localStorage.getItem('token'),
       openKeys: ['0'],
-      rootSubmenuKeys: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11']
     };
     this.login = this.login.bind(this);
     this.onOpenChange = this.onOpenChange.bind(this);
   }
-
+  
+  rootSubmenuKeys: string[] = [];
 
   login() {
     localStorage.setItem('token', btoa(`admin:${this.state.password}`));
@@ -34,8 +34,7 @@ class App extends Component<{}, IAppState> {
 
   onOpenChange(openKeys: string[]) {
     const latestOpenKey: any = openKeys.find(key => this.state.openKeys.indexOf(key) === -1);
-    console.log(latestOpenKey)
-    if (this.state.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
+    if (!latestOpenKey) {
       this.setState({ openKeys });
     } else {
       this.setState({
@@ -45,7 +44,7 @@ class App extends Component<{}, IAppState> {
   }
 
   render() {
-    const { password, token } = this.state;
+    const { password, token, openKeys } = this.state;
     if (!token) {
       return (
         <div className="Login">
@@ -65,15 +64,18 @@ class App extends Component<{}, IAppState> {
           {({ loading, error, data }) => {
             if (loading) return <p>Loading...</p>;
             if (error || !data) return <p>{error!.message || 'Error :('}</p>;
+            data.apps.map(app => {
+              this.rootSubmenuKeys.push(app.id)
+            })
             return <Menu
               mode='inline'
-              openKeys={this.state.openKeys}
+              openKeys={openKeys}
               onOpenChange={this.onOpenChange}
               style={{ width: '100%' }}
             >
               {data.apps.map((app, index) => 
-                <SubMenu key={`${index}`} title={app.name}>
-                  <AppCard key={app.id} {...app} />
+                <SubMenu key={app.id} title={app.name}>
+                  <AppCard {...app} />
                 </SubMenu>
               )}
             </Menu>;
