@@ -7,12 +7,6 @@ interface ISessionModalProps {
   onClose?: () => void;
 }
 
-const sessionStyle = {
-  background: 'rgba(0,0,0,0)',
-  width: 1024,
-  height: 576,
-  margin: '-24px 0 0 -24px'
-}
 class SessionModal extends Component<ISessionModalProps> {
   constructor(props: ISessionModalProps) {
     super(props);
@@ -37,10 +31,10 @@ class SessionModal extends Component<ISessionModalProps> {
   render() {
     const { sessionId } = this.props;
     return (
-      <div className="SessionModal" style={sessionStyle}>
+      <div className="SessionModal">
         <GetEventsComponent variables={{ sessionId }}>
           {({ loading, error, data }) => {
-            if (loading) return <p style={{ lineHeight: '16px' }}>Loading...</p>;
+            if (loading) return <p>Loading...</p>;
             if (error || !data) return <p>Error :(</p>;
             return <Player events={data.events} />;
           }}

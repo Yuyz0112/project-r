@@ -33,6 +33,7 @@
   border-bottom: 2px solid rgba(33, 230, 118, .5);
   cursor: pointer;
   display: flex;
+  line-height: 36px;
 }
 
 .Session:hover {
@@ -43,12 +44,28 @@
   margin-right: 2em;
 }
 
+.toggle-btn {
+  height: 30px;
+  line-height: 20px;
+  border: none;
+  border-radius: 3px;
+  background-color: gray;
+  outline: none;
+}
+
+.code {
+  line-height: 16px;
+}
+
 .SessionModal {
   position: relative;
   left: 0;
   top: 0;
   right: 0;
   bottom: 0;
+  width: 1024px;
+  height: 576px;
+  margin: -24px 0 0 -24px;
   background: white;
 }
 

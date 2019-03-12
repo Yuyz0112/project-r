@@ -59,14 +59,6 @@ interface IAppCardState {
   visible: boolean;
 }
 
-const btnStyle = {
-  height: '30px',
-  lineHeight: '20px',
-  border: 'none',
-  borderRadius: '3px',
-  background: 'gray',
-  outline: 'none'
-}
 class AppCard extends Component<IAppCardProps, IAppCardState> {
   constructor(props: IAppCardProps) {
     super(props);
@@ -82,15 +74,14 @@ class AppCard extends Component<IAppCardProps, IAppCardState> {
     const { collapse, showSession } = this.state;
     return (
       <div className="Card" key={id}>
-        {/* <p>name: {name}</p> */}
         <p>
-          <button onClick={() => this.setState({ collapse: !collapse })} style={btnStyle}>
+          <button onClick={() => this.setState({ collapse: !collapse })} className='toggle-btn'>
             {collapse ? 'Show install code' : 'Hide'}
           </button>
         </p>
         {!collapse && (
           <pre>
-            <code style={{ lineHeight: '16px' }}>{getCode(id)}</code>
+            <code className='code'>{getCode(id)}</code>
           </pre>
         )}
         {sessions.map(session => (
@@ -98,7 +89,6 @@ class AppCard extends Component<IAppCardProps, IAppCardState> {
             className="Session"
             key={session.id}
             onClick={() => this.setState({ showSession: session.id })}
-            style={{ lineHeight: '36px', borderBottom: '1px solid #ddd' }}
           >
             <p>
               Created at:{' '}

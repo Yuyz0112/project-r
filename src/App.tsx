@@ -71,7 +71,6 @@ class App extends Component<{}, IAppState> {
                 mode='inline'
                 openKeys={openKeys}
                 onOpenChange={this.onOpenChange}
-                style={{ width: '100%' }}
               >
                 {data.apps.map((app) =>
                   <SubMenu key={app.id} title={app.name}>
