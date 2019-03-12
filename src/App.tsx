@@ -23,7 +23,7 @@ class App extends Component<{}, IAppState> {
     this.login = this.login.bind(this);
     this.onOpenChange = this.onOpenChange.bind(this);
   }
-  
+
   rootSubmenuKeys: string[] = [];
 
   login() {
@@ -66,18 +66,20 @@ class App extends Component<{}, IAppState> {
             data.apps.map(app => {
               this.rootSubmenuKeys.push(app.id)
             })
-            return <Menu
-              mode='inline'
-              openKeys={openKeys}
-              onOpenChange={this.onOpenChange}
-              style={{ width: '100%' }}
-            >
-              {data.apps.map((app, index) => 
-                <SubMenu key={app.id} title={app.name}>
-                  <AppCard {...app} />
-                </SubMenu>
-              )}
-            </Menu>;
+            return (
+              <Menu
+                mode='inline'
+                openKeys={openKeys}
+                onOpenChange={this.onOpenChange}
+                style={{ width: '100%' }}
+              >
+                {data.apps.map((app) =>
+                  <SubMenu key={app.id} title={app.name}>
+                    <AppCard {...app} />
+                  </SubMenu>
+                )}
+              </Menu>
+            );
           }}
         </GetAppsComponent>
       </div>

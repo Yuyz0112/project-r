@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
 import { GetEventsComponent } from '../generated/graphql';
 import Player from './Player';
+import { relative } from 'path';
 
 interface ISessionModalProps {
   sessionId: string;
   onClose?: () => void;
 }
 
+const sessionStyle = {
+  background: 'rgba(0,0,0,0)',
+  width: 1024,
+  height: 576, 
+  margin: '-24px 0 0 -24px'
+}
 class SessionModal extends Component<ISessionModalProps> {
   constructor(props: ISessionModalProps) {
     super(props);
@@ -31,18 +38,10 @@ class SessionModal extends Component<ISessionModalProps> {
   render() {
     const { sessionId, onClose } = this.props;
     return (
-      <div className="SessionModal">
-        <button
-          className="close-btn"
-          onClick={() => {
-            onClose && onClose();
-          }}
-        >
-          X
-        </button>
+      <div className="SessionModal" style={sessionStyle}>
         <GetEventsComponent variables={{ sessionId }}>
           {({ loading, error, data }) => {
-            if (loading) return <p>Loading...</p>;
+            if (loading) return <p style={{lineHeight: '16px'}}>Loading...</p>;
             if (error || !data) return <p>Error :(</p>;
             return <Player events={data.events} />;
           }}

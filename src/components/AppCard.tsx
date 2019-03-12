@@ -56,6 +56,7 @@ interface IAppCardProps extends GetAppsApps { }
 interface IAppCardState {
   collapse: boolean;
   showSession: string | null;
+  visible: boolean;
 }
 
 const btnStyle = {
@@ -72,6 +73,7 @@ class AppCard extends Component<IAppCardProps, IAppCardState> {
     this.state = {
       collapse: true,
       showSession: null,
+      visible: false,
     };
   }
 
@@ -88,7 +90,7 @@ class AppCard extends Component<IAppCardProps, IAppCardState> {
         </p>
         {!collapse && (
           <pre>
-            <code style={{lineHeight: '16px'}}>{getCode(id)}</code>
+            <code style={{ lineHeight: '16px' }}>{getCode(id)}</code>
           </pre>
         )}
         {sessions.map(session => (
@@ -112,12 +114,16 @@ class AppCard extends Component<IAppCardProps, IAppCardState> {
             </p>
           </div>
         ))}
-        {showSession && (
-          <SessionModal
-            sessionId={showSession}
-            onClose={() => this.setState({ showSession: null })}
-          />
-        )}
+        <Modal
+          footer={null}
+          centered
+          closable
+          visible={showSession ? true: false}
+          onCancel={() => {this.setState({showSession: null})}}
+          title='player'
+        >
+         {showSession &&  <SessionModal sessionId={showSession}/>}
+        </Modal>
       </div>
     );
   }
