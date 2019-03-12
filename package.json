@@ -7,6 +7,7 @@
     "@types/node": "10.12.21",
     "@types/react": "16.8.1",
     "@types/react-dom": "16.0.11",
+    "antd": "^3.14.1",
     "apollo-boost": "^0.1.27",
     "dayjs": "^1.8.4",
     "graphql": "^14.1.1",

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import dayjs from 'dayjs';
 import { GetAppsApps } from '../generated/graphql';
 import SessionModal from './SessionModal';
+import { Modal, Button } from 'antd';
 
 const HOST = process.env.REACT_APP_BACKEND || window.location.origin
 
@@ -50,11 +51,12 @@ const getCode = (
   }
 </script>`;
 
-interface IAppCardProps extends GetAppsApps {}
+interface IAppCardProps extends GetAppsApps { }
 
 interface IAppCardState {
   collapse: boolean;
   showSession: string | null;
+  visible: boolean;
 }
 
 class AppCard extends Component<IAppCardProps, IAppCardState> {
@@ -63,23 +65,23 @@ class AppCard extends Component<IAppCardProps, IAppCardState> {
     this.state = {
       collapse: true,
       showSession: null,
+      visible: false,
     };
   }
 
   render() {
-    const { id, name, sessions } = this.props;
+    const { id, sessions } = this.props;
     const { collapse, showSession } = this.state;
     return (
       <div className="Card" key={id}>
-        <p>name: {name}</p>
         <p>
-          <button onClick={() => this.setState({ collapse: !collapse })}>
+          <Button onClick={() => this.setState({ collapse: !collapse })} className='toggle-btn'>
             {collapse ? 'Show install code' : 'Hide'}
-          </button>
+          </Button>
         </p>
         {!collapse && (
           <pre>
-            <code>{getCode(id)}</code>
+            <code className='code'>{getCode(id)}</code>
           </pre>
         )}
         {sessions.map(session => (
@@ -102,12 +104,16 @@ class AppCard extends Component<IAppCardProps, IAppCardState> {
             </p>
           </div>
         ))}
-        {showSession && (
-          <SessionModal
-            sessionId={showSession}
-            onClose={() => this.setState({ showSession: null })}
-          />
-        )}
+        <Modal
+          footer={null}
+          centered
+          closable
+          visible={showSession ? true : false}
+          onCancel={() => { this.setState({ showSession: null }) }}
+          title='player'
+        >
+          {showSession && <SessionModal sessionId={showSession} />}
+        </Modal>
       </div>
     );
   }

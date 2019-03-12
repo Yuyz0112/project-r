@@ -3,8 +3,8 @@ query getApps {
     id
     name
     sessions {
-      id,
-      lastEventTime,
+      id
+      lastEventTime
       createdAt
     }
     createdAt
