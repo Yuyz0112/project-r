@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import dayjs from 'dayjs';
 import { GetAppsApps } from '../generated/graphql';
 import SessionModal from './SessionModal';
-import { Modal } from 'antd';
+import { Modal, Button } from 'antd';
 
 const HOST = process.env.REACT_APP_BACKEND || window.location.origin
 
@@ -75,9 +75,9 @@ class AppCard extends Component<IAppCardProps, IAppCardState> {
     return (
       <div className="Card" key={id}>
         <p>
-          <button onClick={() => this.setState({ collapse: !collapse })} className='toggle-btn'>
+          <Button onClick={() => this.setState({ collapse: !collapse })} className='toggle-btn'>
             {collapse ? 'Show install code' : 'Hide'}
-          </button>
+          </Button>
         </p>
         {!collapse && (
           <pre>
