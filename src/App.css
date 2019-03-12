@@ -5,7 +5,7 @@
   margin-top: 100px;
 }
 
-.Login > * {
+.Login>* {
   line-height: 30px;
 }
 
@@ -18,9 +18,11 @@
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.24);
   margin-bottom: 2em;
 }
+
 .ant-modal {
-  width: 1024px!important;
+  width: 1024px !important;
 }
+
 .Card pre {
   background: #212121;
   color: white;

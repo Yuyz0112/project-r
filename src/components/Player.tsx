@@ -22,7 +22,7 @@ class Player extends Component<IPlayerProps> {
     });
   }
   render() {
-    return <div ref="wrapper"/>;
+    return <div ref="wrapper" />;
   }
 }
 

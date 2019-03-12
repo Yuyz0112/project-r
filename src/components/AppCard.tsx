@@ -118,11 +118,11 @@ class AppCard extends Component<IAppCardProps, IAppCardState> {
           footer={null}
           centered
           closable
-          visible={showSession ? true: false}
-          onCancel={() => {this.setState({showSession: null})}}
+          visible={showSession ? true : false}
+          onCancel={() => { this.setState({ showSession: null }) }}
           title='player'
         >
-         {showSession &&  <SessionModal sessionId={showSession}/>}
+          {showSession && <SessionModal sessionId={showSession} />}
         </Modal>
       </div>
     );
