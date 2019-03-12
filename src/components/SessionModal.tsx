@@ -4,28 +4,11 @@ import Player from './Player';
 
 interface ISessionModalProps {
   sessionId: string;
-  onClose?: () => void;
 }
 
 class SessionModal extends Component<ISessionModalProps> {
   constructor(props: ISessionModalProps) {
     super(props);
-    this.handleKeyPress = this.handleKeyPress.bind(this);
-  }
-
-  componentDidMount() {
-    window.addEventListener('keydown', this.handleKeyPress);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeyPress);
-  }
-
-  handleKeyPress(event: KeyboardEvent) {
-    const { onClose } = this.props;
-    if (event.key === 'Escape') {
-      onClose && onClose();
-    }
   }
 
   render() {
