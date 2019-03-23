@@ -306,6 +306,8 @@ input EventWhereUniqueInput {
   id: ID
 }
 
+scalar Json
+
 scalar Long
 
 type Mutation {
@@ -364,6 +366,8 @@ type Session {
   lastEventTime: DateTime
   createdAt: DateTime!
   app: App
+  referrer: String
+  utm: Json
 }
 
 type SessionConnection {
@@ -375,6 +379,8 @@ type SessionConnection {
 input SessionCreateInput {
   lastEventTime: DateTime
   app: AppCreateOneWithoutSessionsInput
+  referrer: String
+  utm: Json
 }
 
 input SessionCreateManyWithoutAppInput {
@@ -384,6 +390,8 @@ input SessionCreateManyWithoutAppInput {
 
 input SessionCreateWithoutAppInput {
   lastEventTime: DateTime
+  referrer: String
+  utm: Json
 }
 
 type SessionEdge {
@@ -398,12 +406,18 @@ enum SessionOrderByInput {
   lastEventTime_DESC
   createdAt_ASC
   createdAt_DESC
+  referrer_ASC
+  referrer_DESC
+  utm_ASC
+  utm_DESC
 }
 
 type SessionPreviousValues {
   id: ID!
   lastEventTime: DateTime
   createdAt: DateTime!
+  referrer: String
+  utm: Json
 }
 
 input SessionScalarWhereInput {
@@ -437,6 +451,20 @@ input SessionScalarWhereInput {
   createdAt_lte: DateTime
   createdAt_gt: DateTime
   createdAt_gte: DateTime
+  referrer: String
+  referrer_not: String
+  referrer_in: [String!]
+  referrer_not_in: [String!]
+  referrer_lt: String
+  referrer_lte: String
+  referrer_gt: String
+  referrer_gte: String
+  referrer_contains: String
+  referrer_not_contains: String
+  referrer_starts_with: String
+  referrer_not_starts_with: String
+  referrer_ends_with: String
+  referrer_not_ends_with: String
   AND: [SessionScalarWhereInput!]
   OR: [SessionScalarWhereInput!]
   NOT: [SessionScalarWhereInput!]
@@ -463,14 +491,20 @@ input SessionSubscriptionWhereInput {
 input SessionUpdateInput {
   lastEventTime: DateTime
   app: AppUpdateOneWithoutSessionsInput
+  referrer: String
+  utm: Json
 }
 
 input SessionUpdateManyDataInput {
   lastEventTime: DateTime
+  referrer: String
+  utm: Json
 }
 
 input SessionUpdateManyMutationInput {
   lastEventTime: DateTime
+  referrer: String
+  utm: Json
 }
 
 input SessionUpdateManyWithoutAppInput {
@@ -491,6 +525,8 @@ input SessionUpdateManyWithWhereNestedInput {
 
 input SessionUpdateWithoutAppDataInput {
   lastEventTime: DateTime
+  referrer: String
+  utm: Json
 }
 
 input SessionUpdateWithWhereUniqueWithoutAppInput {
@@ -535,6 +571,20 @@ input SessionWhereInput {
   createdAt_lte: DateTime
   createdAt_gt: DateTime
   createdAt_gte: DateTime
+  referrer: String
+  referrer_not: String
+  referrer_in: [String!]
+  referrer_not_in: [String!]
+  referrer_lt: String
+  referrer_lte: String
+  referrer_gt: String
+  referrer_gte: String
+  referrer_contains: String
+  referrer_not_contains: String
+  referrer_starts_with: String
+  referrer_not_starts_with: String
+  referrer_ends_with: String
+  referrer_not_ends_with: String
   AND: [SessionWhereInput!]
   OR: [SessionWhereInput!]
   NOT: [SessionWhereInput!]

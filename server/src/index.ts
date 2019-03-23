@@ -106,12 +106,15 @@ if (process.env.SECRET) {
 }
 
 server.post('/sessions', async (req, res) => {
+  const { appId, referrer, utm } = req.body;
   const newSession = await prisma.createSession({
     app: {
       connect: {
-        id: req.body.appId,
+        id: appId,
       },
     },
+    referrer,
+    utm,
   });
   res.json(newSession);
 });

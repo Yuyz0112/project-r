@@ -1,4 +1,5 @@
 scalar DateTime
+scalar Json
 
 type Query {
   apps: [App!]!
@@ -21,6 +22,8 @@ type Session {
   lastEventTime: DateTime
   createdAt: DateTime!
   app: App!
+  referrer: String
+  utm: Json
 }
 
 type Event {

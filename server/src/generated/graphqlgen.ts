@@ -235,6 +235,9 @@ export namespace SessionResolvers {
     lastEventTime: (parent: Session) =>
       parent.lastEventTime === undefined ? null : parent.lastEventTime,
     createdAt: (parent: Session) => parent.createdAt,
+    referrer: (parent: Session) =>
+      parent.referrer === undefined ? null : parent.referrer,
+    utm: (parent: Session) => (parent.utm === undefined ? null : parent.utm),
   };
 
   export type IdResolver =
@@ -305,6 +308,40 @@ export namespace SessionResolvers {
         ) => App | Promise<App>;
       };
 
+  export type ReferrerResolver =
+    | ((
+        parent: Session,
+        args: {},
+        ctx: Context,
+        info: GraphQLResolveInfo,
+      ) => string | null | Promise<string | null>)
+    | {
+        fragment: string;
+        resolver: (
+          parent: Session,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => string | null | Promise<string | null>;
+      };
+
+  export type UtmResolver =
+    | ((
+        parent: Session,
+        args: {},
+        ctx: Context,
+        info: GraphQLResolveInfo,
+      ) => string | null | Promise<string | null>)
+    | {
+        fragment: string;
+        resolver: (
+          parent: Session,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => string | null | Promise<string | null>;
+      };
+
   export interface Type {
     id:
       | ((
@@ -372,6 +409,40 @@ export namespace SessionResolvers {
             ctx: Context,
             info: GraphQLResolveInfo,
           ) => App | Promise<App>;
+        };
+
+    referrer:
+      | ((
+          parent: Session,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => string | null | Promise<string | null>)
+      | {
+          fragment: string;
+          resolver: (
+            parent: Session,
+            args: {},
+            ctx: Context,
+            info: GraphQLResolveInfo,
+          ) => string | null | Promise<string | null>;
+        };
+
+    utm:
+      | ((
+          parent: Session,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => string | null | Promise<string | null>)
+      | {
+          fragment: string;
+          resolver: (
+            parent: Session,
+            args: {},
+            ctx: Context,
+            info: GraphQLResolveInfo,
+          ) => string | null | Promise<string | null>;
         };
   }
 }
