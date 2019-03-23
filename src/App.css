@@ -5,7 +5,7 @@
   margin-top: 100px;
 }
 
-.Login>* {
+.Login > * {
   line-height: 30px;
 }
 
@@ -26,18 +26,17 @@
 .Card pre {
   background: #212121;
   color: white;
-  padding: .75em;
+  padding: 0.75em;
 }
 
 .Session {
-  border-bottom: 2px solid rgba(33, 230, 118, .5);
+  background: #f1f3f5;
+  padding: 0 10px;
   cursor: pointer;
-  display: flex;
-  line-height: 36px;
 }
 
 .Session:hover {
-  border-bottom: 2px solid rgba(33, 230, 118, 1);
+  background: #eee;
 }
 
 .Session p {
@@ -58,19 +57,15 @@
 }
 
 .SessionModal {
-  position: relative;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 1024px;
-  height: 576px;
-  margin: -24px 0 0 -24px;
-  background: white;
+  height: 800px;
 }
 
-.SessionModal .close-btn {
-  position: absolute;
-  right: 1em;
-  top: 1em;
+.clearfix:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.ant-menu code {
+  line-height: normal;
 }
