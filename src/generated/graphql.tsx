@@ -36,6 +36,10 @@ export type GetAppsSessions = {
   lastEventTime: Maybe<string>;
 
   createdAt: string;
+
+  referrer: Maybe<string>;
+
+  utm: Maybe<Json>;
 };
 
 export type GetEventsVariables = {
@@ -49,7 +53,7 @@ export type GetEventsQuery = {
 };
 
 export type GetEventsEvents = {
-  __typename?: 'Event';
+  __typename?: 'EventWithStringData';
 
   timestamp: string;
 
@@ -76,6 +80,8 @@ export const GetAppsDocument = gql`
         id
         lastEventTime
         createdAt
+        referrer
+        utm
       }
       createdAt
     }

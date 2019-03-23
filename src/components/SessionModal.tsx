@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { Modal } from 'antd';
 import { GetEventsComponent } from '../generated/graphql';
 import Player from './Player';
 
 interface ISessionModalProps {
+  onClose(): void;
   sessionId: string;
 }
 
@@ -12,17 +14,27 @@ class SessionModal extends Component<ISessionModalProps> {
   }
 
   render() {
-    const { sessionId } = this.props;
+    const { sessionId, onClose } = this.props;
     return (
-      <div className="SessionModal">
+      <Modal
+        visible
+        width={1072}
+        className="SessionModal"
+        onCancel={onClose}
+        footer={null}
+      >
         <GetEventsComponent variables={{ sessionId }}>
           {({ loading, error, data }) => {
             if (loading) return <p>Loading...</p>;
             if (error || !data) return <p>Error :(</p>;
-            return <Player events={data.events} />;
+            return (
+              <div className="clearfix">
+                <Player events={data.events} />
+              </div>
+            );
           }}
         </GetEventsComponent>
-      </div>
+      </Modal>
     );
   }
 }

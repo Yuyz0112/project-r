@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import dayjs from 'dayjs';
+import { Button, Tag } from 'antd';
 import { GetAppsApps } from '../generated/graphql';
 import SessionModal from './SessionModal';
-import { Modal, Button } from 'antd';
 
-const HOST = process.env.REACT_APP_BACKEND || window.location.origin
+const HOST = process.env.REACT_APP_BACKEND || window.location.origin;
 
 const getCode = (
   id: string,
@@ -51,7 +51,7 @@ const getCode = (
   }
 </script>`;
 
-interface IAppCardProps extends GetAppsApps { }
+interface IAppCardProps extends GetAppsApps {}
 
 interface IAppCardState {
   collapse: boolean;
@@ -75,13 +75,13 @@ class AppCard extends Component<IAppCardProps, IAppCardState> {
     return (
       <div className="Card" key={id}>
         <p>
-          <Button onClick={() => this.setState({ collapse: !collapse })} className='toggle-btn'>
+          <Button onClick={() => this.setState({ collapse: !collapse })}>
             {collapse ? 'Show install code' : 'Hide'}
           </Button>
         </p>
         {!collapse && (
           <pre>
-            <code className='code'>{getCode(id)}</code>
+            <code className="code">{getCode(id)}</code>
           </pre>
         )}
         {sessions.map(session => (
@@ -89,31 +89,37 @@ class AppCard extends Component<IAppCardProps, IAppCardState> {
             className="Session"
             key={session.id}
             onClick={() => this.setState({ showSession: session.id })}
+            style={{ lineHeight: '36px', borderBottom: '1px solid #ddd' }}
           >
-            <p>
-              Created at:{' '}
+            <div>
+              访问时间：
               {dayjs(session.createdAt).format('YYYY-MM-DD HH:mm:ss')}
-            </p>
-            <p>
-              Duration:{' '}
+            </div>
+            <div>
+              访问时长：
               {dayjs(session.lastEventTime!).diff(
                 dayjs(session.createdAt),
                 'second',
               )}{' '}
-              seconds
-            </p>
+              秒
+            </div>
+            <div>入口：{session.referrer || '直接访问'}</div>
+            <div>
+              utm source：
+              <Tag color="cyan">{session.utm.utm_source || '-'}</Tag>
+            </div>
+            <div>
+              utm campaign：
+              <Tag color="blue">{session.utm.utm_campaign || '-'}</Tag>
+            </div>
           </div>
         ))}
-        <Modal
-          footer={null}
-          centered
-          closable
-          visible={showSession ? true : false}
-          onCancel={() => { this.setState({ showSession: null }) }}
-          title='player'
-        >
-          {showSession && <SessionModal sessionId={showSession} />}
-        </Modal>
+        {showSession && (
+          <SessionModal
+            sessionId={showSession}
+            onClose={() => this.setState({ showSession: null })}
+          />
+        )}
       </div>
     );
   }

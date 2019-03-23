@@ -6,6 +6,8 @@ query getApps {
       id
       lastEventTime
       createdAt
+      referrer
+      utm
     }
     createdAt
   }

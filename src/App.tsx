@@ -32,7 +32,9 @@ class App extends Component<{}, IAppState> {
   }
 
   onOpenChange(openKeys: string[]) {
-    const latestOpenKey: string | void = openKeys.find(key => this.state.openKeys.indexOf(key) === -1);
+    const latestOpenKey: string | void = openKeys.find(
+      key => this.state.openKeys.indexOf(key) === -1,
+    );
     if (!latestOpenKey) {
       this.setState({ openKeys });
     } else {
@@ -64,19 +66,19 @@ class App extends Component<{}, IAppState> {
             if (loading) return <p>Loading...</p>;
             if (error || !data) return <p>{error!.message || 'Error :('}</p>;
             data.apps.map(app => {
-              this.rootSubmenuKeys.push(app.id)
-            })
+              this.rootSubmenuKeys.push(app.id);
+            });
             return (
               <Menu
-                mode='inline'
+                mode="inline"
                 openKeys={openKeys}
                 onOpenChange={this.onOpenChange}
               >
-                {data.apps.map((app) =>
+                {data.apps.map(app => (
                   <SubMenu key={app.id} title={app.name}>
                     <AppCard {...app} />
                   </SubMenu>
-                )}
+                ))}
               </Menu>
             );
           }}
