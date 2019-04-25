@@ -4,6 +4,7 @@ query getApps {
     name
     sessions {
       id
+      firstEventTime
       lastEventTime
       createdAt
       referrer

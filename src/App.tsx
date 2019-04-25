@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Menu, Icon } from 'antd';
-import { GetAppsComponent } from './generated/graphql';
+import { GetAppsComponent, GetAppsQuery } from './generated/graphql';
 import AppCard from './components/AppCard';
 import './App.css';
 import 'antd/dist/antd.css';
@@ -18,17 +18,24 @@ class App extends Component<{}, IAppState> {
     this.state = {
       password: '',
       token: localStorage.getItem('token'),
-      openKeys: ['0'],
+      openKeys: [],
     };
     this.login = this.login.bind(this);
+    this.initOpenKey = this.initOpenKey.bind(this);
     this.onOpenChange = this.onOpenChange.bind(this);
   }
-
-  rootSubmenuKeys: string[] = [];
 
   login() {
     localStorage.setItem('token', btoa(`admin:${this.state.password}`));
     window.location.reload();
+  }
+
+  initOpenKey(data: GetAppsQuery | {}) {
+    if (!this.state.openKeys.length && 'apps' in data) {
+      this.setState({
+        openKeys: [data.apps[0].id],
+      });
+    }
   }
 
   onOpenChange(openKeys: string[]) {
@@ -61,13 +68,10 @@ class App extends Component<{}, IAppState> {
     }
     return (
       <div className="App">
-        <GetAppsComponent>
+        <GetAppsComponent onCompleted={this.initOpenKey}>
           {({ loading, error, data }) => {
             if (loading) return <p>Loading...</p>;
             if (error || !data) return <p>{error!.message || 'Error :('}</p>;
-            data.apps.map(app => {
-              this.rootSubmenuKeys.push(app.id);
-            });
             return (
               <Menu
                 mode="inline"

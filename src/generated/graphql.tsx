@@ -29,6 +29,22 @@ export interface SessionWhereInput {
 
   id_not_ends_with?: Maybe<string>;
 
+  firstEventTime?: Maybe<string>;
+
+  firstEventTime_not?: Maybe<string>;
+
+  firstEventTime_in?: Maybe<string[]>;
+
+  firstEventTime_not_in?: Maybe<string[]>;
+
+  firstEventTime_lt?: Maybe<string>;
+
+  firstEventTime_lte?: Maybe<string>;
+
+  firstEventTime_gt?: Maybe<string>;
+
+  firstEventTime_gte?: Maybe<string>;
+
   lastEventTime?: Maybe<string>;
 
   lastEventTime_not?: Maybe<string>;
@@ -175,6 +191,8 @@ export interface AppWhereInput {
 export enum SessionOrderByInput {
   IdAsc = 'id_ASC',
   IdDesc = 'id_DESC',
+  FirstEventTimeAsc = 'firstEventTime_ASC',
+  FirstEventTimeDesc = 'firstEventTime_DESC',
   LastEventTimeAsc = 'lastEventTime_ASC',
   LastEventTimeDesc = 'lastEventTime_DESC',
   CreatedAtAsc = 'createdAt_ASC',
@@ -217,6 +235,8 @@ export type GetAppsSessions = {
   __typename?: 'Session';
 
   id: string;
+
+  firstEventTime: Maybe<string>;
 
   lastEventTime: Maybe<string>;
 
@@ -263,6 +283,7 @@ export const GetAppsDocument = gql`
       name
       sessions {
         id
+        firstEventTime
         lastEventTime
         createdAt
         referrer

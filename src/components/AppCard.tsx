@@ -100,7 +100,7 @@ class AppCard extends Component<IAppCardProps, IAppCardState> {
               <div>
                 访问时长：
                 {dayjs(session.lastEventTime!).diff(
-                  dayjs(session.createdAt),
+                  dayjs(session.firstEventTime!),
                   'second',
                 )}{' '}
                 秒
