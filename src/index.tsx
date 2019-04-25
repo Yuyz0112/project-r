@@ -11,7 +11,7 @@ const client = new ApolloClient({
   uri:
     process.env.NODE_ENV === 'production'
       ? '/graphql'
-      : 'http://localhost:4000/graphql',
+      : `${process.env.REACT_APP_BACKEND || 'http://localhost:4000'}/graphql`,
   headers: {
     Authorization: token ? `Basic ${token}` : '',
   },

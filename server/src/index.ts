@@ -120,10 +120,10 @@ server.post('/sessions', async (req, res) => {
   res.json(newSession);
 });
 
-server.post('/events:batch', (req, res) => {
+server.post('/events:batch', async (req, res) => {
   const { sessionId, events } = req.body;
   for (const event of events) {
-    prisma.createEvent({
+    await prisma.createEvent({
       ...event,
       timestamp: new Date(event.timestamp),
       sessionId: sessionId,
@@ -134,7 +134,7 @@ server.post('/events:batch', (req, res) => {
   }
   if (events.length > 0) {
     const lastEvent = events[events.length - 1];
-    prisma.updateSession({
+    await prisma.updateSession({
       data: {
         lastEventTime: new Date(lastEvent.timestamp),
       },
