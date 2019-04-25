@@ -360,6 +360,7 @@ type Query {
 
 type Session {
   id: ID!
+  firstEventTime: DateTime
   lastEventTime: DateTime
   createdAt: DateTime!
   app: App
@@ -374,6 +375,7 @@ type SessionConnection {
 }
 
 input SessionCreateInput {
+  firstEventTime: DateTime
   lastEventTime: DateTime
   app: AppCreateOneWithoutSessionsInput
   referrer: String
@@ -386,6 +388,7 @@ input SessionCreateManyWithoutAppInput {
 }
 
 input SessionCreateWithoutAppInput {
+  firstEventTime: DateTime
   lastEventTime: DateTime
   referrer: String
   utm: Json
@@ -399,6 +402,8 @@ type SessionEdge {
 enum SessionOrderByInput {
   id_ASC
   id_DESC
+  firstEventTime_ASC
+  firstEventTime_DESC
   lastEventTime_ASC
   lastEventTime_DESC
   createdAt_ASC
@@ -411,6 +416,7 @@ enum SessionOrderByInput {
 
 type SessionPreviousValues {
   id: ID!
+  firstEventTime: DateTime
   lastEventTime: DateTime
   createdAt: DateTime!
   referrer: String
@@ -432,6 +438,14 @@ input SessionScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  firstEventTime: DateTime
+  firstEventTime_not: DateTime
+  firstEventTime_in: [DateTime!]
+  firstEventTime_not_in: [DateTime!]
+  firstEventTime_lt: DateTime
+  firstEventTime_lte: DateTime
+  firstEventTime_gt: DateTime
+  firstEventTime_gte: DateTime
   lastEventTime: DateTime
   lastEventTime_not: DateTime
   lastEventTime_in: [DateTime!]
@@ -484,6 +498,7 @@ input SessionSubscriptionWhereInput {
 }
 
 input SessionUpdateInput {
+  firstEventTime: DateTime
   lastEventTime: DateTime
   app: AppUpdateOneWithoutSessionsInput
   referrer: String
@@ -491,12 +506,14 @@ input SessionUpdateInput {
 }
 
 input SessionUpdateManyDataInput {
+  firstEventTime: DateTime
   lastEventTime: DateTime
   referrer: String
   utm: Json
 }
 
 input SessionUpdateManyMutationInput {
+  firstEventTime: DateTime
   lastEventTime: DateTime
   referrer: String
   utm: Json
@@ -520,6 +537,7 @@ input SessionUpdateManyWithWhereNestedInput {
 }
 
 input SessionUpdateWithoutAppDataInput {
+  firstEventTime: DateTime
   lastEventTime: DateTime
   referrer: String
   utm: Json
@@ -551,6 +569,14 @@ input SessionWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  firstEventTime: DateTime
+  firstEventTime_not: DateTime
+  firstEventTime_in: [DateTime!]
+  firstEventTime_not_in: [DateTime!]
+  firstEventTime_lt: DateTime
+  firstEventTime_lte: DateTime
+  firstEventTime_gt: DateTime
+  firstEventTime_gte: DateTime
   lastEventTime: DateTime
   lastEventTime_not: DateTime
   lastEventTime_in: [DateTime!]

@@ -192,6 +192,8 @@ export interface ClientConstructor<T> {
 export type SessionOrderByInput =
   | "id_ASC"
   | "id_DESC"
+  | "firstEventTime_ASC"
+  | "firstEventTime_DESC"
   | "lastEventTime_ASC"
   | "lastEventTime_DESC"
   | "createdAt_ASC"
@@ -298,6 +300,7 @@ export type SessionWhereUniqueInput = AtLeastOne<{
 }>;
 
 export interface SessionUpdateManyDataInput {
+  firstEventTime?: DateTimeInput;
   lastEventTime?: DateTimeInput;
   referrer?: String;
   utm?: Json;
@@ -325,6 +328,14 @@ export interface SessionScalarWhereInput {
   id_not_starts_with?: ID_Input;
   id_ends_with?: ID_Input;
   id_not_ends_with?: ID_Input;
+  firstEventTime?: DateTimeInput;
+  firstEventTime_not?: DateTimeInput;
+  firstEventTime_in?: DateTimeInput[] | DateTimeInput;
+  firstEventTime_not_in?: DateTimeInput[] | DateTimeInput;
+  firstEventTime_lt?: DateTimeInput;
+  firstEventTime_lte?: DateTimeInput;
+  firstEventTime_gt?: DateTimeInput;
+  firstEventTime_gte?: DateTimeInput;
   lastEventTime?: DateTimeInput;
   lastEventTime_not?: DateTimeInput;
   lastEventTime_in?: DateTimeInput[] | DateTimeInput;
@@ -379,6 +390,14 @@ export interface SessionWhereInput {
   id_not_starts_with?: ID_Input;
   id_ends_with?: ID_Input;
   id_not_ends_with?: ID_Input;
+  firstEventTime?: DateTimeInput;
+  firstEventTime_not?: DateTimeInput;
+  firstEventTime_in?: DateTimeInput[] | DateTimeInput;
+  firstEventTime_not_in?: DateTimeInput[] | DateTimeInput;
+  firstEventTime_lt?: DateTimeInput;
+  firstEventTime_lte?: DateTimeInput;
+  firstEventTime_gt?: DateTimeInput;
+  firstEventTime_gte?: DateTimeInput;
   lastEventTime?: DateTimeInput;
   lastEventTime_not?: DateTimeInput;
   lastEventTime_in?: DateTimeInput[] | DateTimeInput;
@@ -509,12 +528,14 @@ export interface AppCreateWithoutSessionsInput {
 }
 
 export interface SessionCreateWithoutAppInput {
+  firstEventTime?: DateTimeInput;
   lastEventTime?: DateTimeInput;
   referrer?: String;
   utm?: Json;
 }
 
 export interface SessionCreateInput {
+  firstEventTime?: DateTimeInput;
   lastEventTime?: DateTimeInput;
   app?: AppCreateOneWithoutSessionsInput;
   referrer?: String;
@@ -549,6 +570,7 @@ export interface SessionUpdateWithWhereUniqueWithoutAppInput {
 }
 
 export interface SessionUpdateInput {
+  firstEventTime?: DateTimeInput;
   lastEventTime?: DateTimeInput;
   app?: AppUpdateOneWithoutSessionsInput;
   referrer?: String;
@@ -572,6 +594,7 @@ export interface EventCreateInput {
 }
 
 export interface SessionUpdateWithoutAppDataInput {
+  firstEventTime?: DateTimeInput;
   lastEventTime?: DateTimeInput;
   referrer?: String;
   utm?: Json;
@@ -592,6 +615,7 @@ export interface AppUpdateOneWithoutSessionsInput {
 }
 
 export interface SessionUpdateManyMutationInput {
+  firstEventTime?: DateTimeInput;
   lastEventTime?: DateTimeInput;
   referrer?: String;
   utm?: Json;
@@ -612,6 +636,7 @@ export interface NodeNode {
 
 export interface SessionPreviousValues {
   id: ID_Output;
+  firstEventTime?: DateTimeOutput;
   lastEventTime?: DateTimeOutput;
   createdAt: DateTimeOutput;
   referrer?: String;
@@ -622,6 +647,7 @@ export interface SessionPreviousValuesPromise
   extends Promise<SessionPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
+  firstEventTime: () => Promise<DateTimeOutput>;
   lastEventTime: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
   referrer: () => Promise<String>;
@@ -632,6 +658,7 @@ export interface SessionPreviousValuesSubscription
   extends Promise<AsyncIterator<SessionPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
+  firstEventTime: () => Promise<AsyncIterator<DateTimeOutput>>;
   lastEventTime: () => Promise<AsyncIterator<DateTimeOutput>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   referrer: () => Promise<AsyncIterator<String>>;
@@ -656,6 +683,7 @@ export interface AggregateAppSubscription
 
 export interface Session {
   id: ID_Output;
+  firstEventTime?: DateTimeOutput;
   lastEventTime?: DateTimeOutput;
   createdAt: DateTimeOutput;
   referrer?: String;
@@ -664,6 +692,7 @@ export interface Session {
 
 export interface SessionPromise extends Promise<Session>, Fragmentable {
   id: () => Promise<ID_Output>;
+  firstEventTime: () => Promise<DateTimeOutput>;
   lastEventTime: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
   app: <T = AppPromise>() => T;
@@ -675,6 +704,7 @@ export interface SessionSubscription
   extends Promise<AsyncIterator<Session>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
+  firstEventTime: () => Promise<AsyncIterator<DateTimeOutput>>;
   lastEventTime: () => Promise<AsyncIterator<DateTimeOutput>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   app: <T = AppSubscription>() => T;

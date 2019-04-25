@@ -4,7 +4,7 @@ import * as bodyParser from 'body-parser';
 import * as express from 'express';
 import * as basicAuth from 'express-basic-auth';
 import * as qs from 'qs';
-import { prisma } from './generated/prisma-client';
+import { prisma, SessionUpdateInput } from './generated/prisma-client';
 import {
   Resolvers,
   AppResolvers,
@@ -133,11 +133,16 @@ server.post('/events:batch', async (req, res) => {
     });
   }
   if (events.length > 0) {
+    const firstEvent = events[0];
+    const session = await prisma.session({ id: sessionId });
+    const data: SessionUpdateInput = {};
+    if (!session.firstEventTime) {
+      data.firstEventTime = new Date(firstEvent.timestamp);
+    }
     const lastEvent = events[events.length - 1];
+    data.lastEventTime = new Date(lastEvent.timestamp);
     await prisma.updateSession({
-      data: {
-        lastEventTime: new Date(lastEvent.timestamp),
-      },
+      data,
       where: {
         id: sessionId,
       },

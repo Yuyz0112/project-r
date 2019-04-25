@@ -8,6 +8,8 @@ import { Context } from '../context';
 export type SessionOrderByInput =
   | 'id_ASC'
   | 'id_DESC'
+  | 'firstEventTime_ASC'
+  | 'firstEventTime_DESC'
   | 'lastEventTime_ASC'
   | 'lastEventTime_DESC'
   | 'createdAt_ASC'
@@ -117,6 +119,14 @@ export namespace AppResolvers {
     id_not_starts_with?: string | null;
     id_ends_with?: string | null;
     id_not_ends_with?: string | null;
+    firstEventTime?: string | null;
+    firstEventTime_not?: string | null;
+    firstEventTime_in?: string[] | null;
+    firstEventTime_not_in?: string[] | null;
+    firstEventTime_lt?: string | null;
+    firstEventTime_lte?: string | null;
+    firstEventTime_gt?: string | null;
+    firstEventTime_gte?: string | null;
     lastEventTime?: string | null;
     lastEventTime_not?: string | null;
     lastEventTime_in?: string[] | null;
@@ -343,6 +353,8 @@ export namespace AppResolvers {
 export namespace SessionResolvers {
   export const defaultResolvers = {
     id: (parent: Session) => parent.id,
+    firstEventTime: (parent: Session) =>
+      parent.firstEventTime === undefined ? null : parent.firstEventTime,
     lastEventTime: (parent: Session) =>
       parent.lastEventTime === undefined ? null : parent.lastEventTime,
     createdAt: (parent: Session) => parent.createdAt,
@@ -366,6 +378,23 @@ export namespace SessionResolvers {
           ctx: Context,
           info: GraphQLResolveInfo,
         ) => string | Promise<string>;
+      };
+
+  export type FirstEventTimeResolver =
+    | ((
+        parent: Session,
+        args: {},
+        ctx: Context,
+        info: GraphQLResolveInfo,
+      ) => string | null | Promise<string | null>)
+    | {
+        fragment: string;
+        resolver: (
+          parent: Session,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => string | null | Promise<string | null>;
       };
 
   export type LastEventTimeResolver =
@@ -469,6 +498,23 @@ export namespace SessionResolvers {
             ctx: Context,
             info: GraphQLResolveInfo,
           ) => string | Promise<string>;
+        };
+
+    firstEventTime:
+      | ((
+          parent: Session,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => string | null | Promise<string | null>)
+      | {
+          fragment: string;
+          resolver: (
+            parent: Session,
+            args: {},
+            ctx: Context,
+            info: GraphQLResolveInfo,
+          ) => string | null | Promise<string | null>;
         };
 
     lastEventTime:
