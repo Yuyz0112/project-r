@@ -1,5 +1,4 @@
-scalar DateTime
-scalar Json
+# import * from './generated/prisma-client/schema.graphql'
 
 type Query {
   apps: [App!]!
@@ -8,30 +7,6 @@ type Query {
 
 type Mutation {
   createApp(name: String!): App
-}
-
-type App {
-  id: ID!
-  name: String!
-  sessions: [Session!]!
-  createdAt: DateTime!
-}
-
-type Session {
-  id: ID!
-  lastEventTime: DateTime
-  createdAt: DateTime!
-  app: App!
-  referrer: String
-  utm: Json
-}
-
-type Event {
-  id: ID!
-  type: Int!
-  data: [String!]!
-  timestamp: DateTime!
-  sessionId: String!
 }
 
 type EventWithStringData {

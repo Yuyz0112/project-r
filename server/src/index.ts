@@ -3,12 +3,12 @@ import { GraphQLServer, Options } from 'graphql-yoga';
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
 import * as basicAuth from 'express-basic-auth';
+import * as qs from 'qs';
 import { prisma } from './generated/prisma-client';
 import {
   Resolvers,
   AppResolvers,
   SessionResolvers,
-  EventResolvers,
   EventWithStringDataResolvers,
 } from './generated/graphqlgen';
 
@@ -56,9 +56,6 @@ const resolvers: Resolvers = {
       return context.prisma.session({ id: parent.id }).app();
     },
   },
-  Event: {
-    ...EventResolvers.defaultResolvers,
-  },
   EventWithStringData: {
     ...EventWithStringDataResolvers.defaultResolvers,
   },
@@ -74,7 +71,7 @@ const server = new GraphQLServer({
 });
 
 const options: Options = {
-  port: 4000,
+  port: process.env.PORT || 4000,
   endpoint: '/graphql',
   subscriptions: '/subscriptions',
   playground: '/playground',
@@ -106,7 +103,8 @@ if (process.env.SECRET) {
 }
 
 server.post('/sessions', async (req, res) => {
-  const { appId, referrer, utm } = req.body;
+  const { appId, referrer } = req.body;
+  const { utm_source, utm_capaign } = qs.parse(req.query);
   const newSession = await prisma.createSession({
     app: {
       connect: {
@@ -114,15 +112,18 @@ server.post('/sessions', async (req, res) => {
       },
     },
     referrer,
-    utm,
+    utm: {
+      utm_source,
+      utm_capaign,
+    },
   });
   res.json(newSession);
 });
 
-server.post('/events:batch', async (req, res) => {
+server.post('/events:batch', (req, res) => {
   const { sessionId, events } = req.body;
   for (const event of events) {
-    await prisma.createEvent({
+    prisma.createEvent({
       ...event,
       timestamp: new Date(event.timestamp),
       sessionId: sessionId,
@@ -133,7 +134,7 @@ server.post('/events:batch', async (req, res) => {
   }
   if (events.length > 0) {
     const lastEvent = events[events.length - 1];
-    await prisma.updateSession({
+    prisma.updateSession({
       data: {
         lastEventTime: new Date(lastEvent.timestamp),
       },

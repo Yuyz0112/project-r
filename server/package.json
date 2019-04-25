@@ -13,16 +13,18 @@
   "license": "ISC",
   "devDependencies": {
     "graphqlgen": "^0.6.0-rc4",
-    "prisma": "^1.25.7",
+    "prisma": "^1.29.2",
     "typescript": "^3.3.1"
   },
   "dependencies": {
     "@types/body-parser": "^1.17.0",
+    "@types/qs": "^6.5.3",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "express-basic-auth": "^1.1.6",
     "graphql-yoga": "^1.17.1",
-    "prisma-client-lib": "^1.25.7",
+    "prisma-client-lib": "^1.29.2",
+    "qs": "^6.7.0",
     "ts-node": "^8.0.2"
   }
 }

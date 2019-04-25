@@ -1,5 +1,190 @@
 export type Maybe<T> = T | null;
 
+export interface SessionWhereInput {
+  id?: Maybe<string>;
+
+  id_not?: Maybe<string>;
+
+  id_in?: Maybe<string[]>;
+
+  id_not_in?: Maybe<string[]>;
+
+  id_lt?: Maybe<string>;
+
+  id_lte?: Maybe<string>;
+
+  id_gt?: Maybe<string>;
+
+  id_gte?: Maybe<string>;
+
+  id_contains?: Maybe<string>;
+
+  id_not_contains?: Maybe<string>;
+
+  id_starts_with?: Maybe<string>;
+
+  id_not_starts_with?: Maybe<string>;
+
+  id_ends_with?: Maybe<string>;
+
+  id_not_ends_with?: Maybe<string>;
+
+  lastEventTime?: Maybe<string>;
+
+  lastEventTime_not?: Maybe<string>;
+
+  lastEventTime_in?: Maybe<string[]>;
+
+  lastEventTime_not_in?: Maybe<string[]>;
+
+  lastEventTime_lt?: Maybe<string>;
+
+  lastEventTime_lte?: Maybe<string>;
+
+  lastEventTime_gt?: Maybe<string>;
+
+  lastEventTime_gte?: Maybe<string>;
+
+  createdAt?: Maybe<string>;
+
+  createdAt_not?: Maybe<string>;
+
+  createdAt_in?: Maybe<string[]>;
+
+  createdAt_not_in?: Maybe<string[]>;
+
+  createdAt_lt?: Maybe<string>;
+
+  createdAt_lte?: Maybe<string>;
+
+  createdAt_gt?: Maybe<string>;
+
+  createdAt_gte?: Maybe<string>;
+
+  app?: Maybe<AppWhereInput>;
+
+  referrer?: Maybe<string>;
+
+  referrer_not?: Maybe<string>;
+
+  referrer_in?: Maybe<string[]>;
+
+  referrer_not_in?: Maybe<string[]>;
+
+  referrer_lt?: Maybe<string>;
+
+  referrer_lte?: Maybe<string>;
+
+  referrer_gt?: Maybe<string>;
+
+  referrer_gte?: Maybe<string>;
+
+  referrer_contains?: Maybe<string>;
+
+  referrer_not_contains?: Maybe<string>;
+
+  referrer_starts_with?: Maybe<string>;
+
+  referrer_not_starts_with?: Maybe<string>;
+
+  referrer_ends_with?: Maybe<string>;
+
+  referrer_not_ends_with?: Maybe<string>;
+
+  AND?: Maybe<SessionWhereInput[]>;
+}
+
+export interface AppWhereInput {
+  id?: Maybe<string>;
+
+  id_not?: Maybe<string>;
+
+  id_in?: Maybe<string[]>;
+
+  id_not_in?: Maybe<string[]>;
+
+  id_lt?: Maybe<string>;
+
+  id_lte?: Maybe<string>;
+
+  id_gt?: Maybe<string>;
+
+  id_gte?: Maybe<string>;
+
+  id_contains?: Maybe<string>;
+
+  id_not_contains?: Maybe<string>;
+
+  id_starts_with?: Maybe<string>;
+
+  id_not_starts_with?: Maybe<string>;
+
+  id_ends_with?: Maybe<string>;
+
+  id_not_ends_with?: Maybe<string>;
+
+  name?: Maybe<string>;
+
+  name_not?: Maybe<string>;
+
+  name_in?: Maybe<string[]>;
+
+  name_not_in?: Maybe<string[]>;
+
+  name_lt?: Maybe<string>;
+
+  name_lte?: Maybe<string>;
+
+  name_gt?: Maybe<string>;
+
+  name_gte?: Maybe<string>;
+
+  name_contains?: Maybe<string>;
+
+  name_not_contains?: Maybe<string>;
+
+  name_starts_with?: Maybe<string>;
+
+  name_not_starts_with?: Maybe<string>;
+
+  name_ends_with?: Maybe<string>;
+
+  name_not_ends_with?: Maybe<string>;
+
+  sessions_some?: Maybe<SessionWhereInput>;
+
+  createdAt?: Maybe<string>;
+
+  createdAt_not?: Maybe<string>;
+
+  createdAt_in?: Maybe<string[]>;
+
+  createdAt_not_in?: Maybe<string[]>;
+
+  createdAt_lt?: Maybe<string>;
+
+  createdAt_lte?: Maybe<string>;
+
+  createdAt_gt?: Maybe<string>;
+
+  createdAt_gte?: Maybe<string>;
+
+  AND?: Maybe<AppWhereInput[]>;
+}
+
+export enum SessionOrderByInput {
+  IdAsc = 'id_ASC',
+  IdDesc = 'id_DESC',
+  LastEventTimeAsc = 'lastEventTime_ASC',
+  LastEventTimeDesc = 'lastEventTime_DESC',
+  CreatedAtAsc = 'createdAt_ASC',
+  CreatedAtDesc = 'createdAt_DESC',
+  ReferrerAsc = 'referrer_ASC',
+  ReferrerDesc = 'referrer_DESC',
+  UtmAsc = 'utm_ASC',
+  UtmDesc = 'utm_DESC',
+}
+
 export type DateTime = string;
 
 export type Json = any;
@@ -23,7 +208,7 @@ export type GetAppsApps = {
 
   name: string;
 
-  sessions: GetAppsSessions[];
+  sessions: Maybe<GetAppsSessions[]>;
 
   createdAt: string;
 };

@@ -8,7 +8,7 @@ const HOST = process.env.REACT_APP_BACKEND || window.location.origin;
 
 const getCode = (
   id: string,
-) => `<script src="https://cdn.jsdelivr.net/npm/rrweb@0.7.9/dist/record/rrweb-record.min.js"></script>
+) => `<script src="https://cdn.jsdelivr.net/npm/rrweb@0.7.12/dist/record/rrweb-record.min.js"></script>
 <script>
   let events = [];
 
@@ -18,7 +18,8 @@ const getCode = (
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      appId: '${id}'
+      appId: '${id}',
+      referrer: document.referrer,
     }),
   })
     .then(res => res.json())
@@ -84,36 +85,41 @@ class AppCard extends Component<IAppCardProps, IAppCardState> {
             <code className="code">{getCode(id)}</code>
           </pre>
         )}
-        {sessions.map(session => (
-          <div
-            className="Session"
-            key={session.id}
-            onClick={() => this.setState({ showSession: session.id })}
-            style={{ lineHeight: '36px', borderBottom: '1px solid #ddd' }}
-          >
-            <div>
-              访问时间：
-              {dayjs(session.createdAt).format('YYYY-MM-DD HH:mm:ss')}
+        {sessions &&
+          sessions.map(session => (
+            <div
+              className="Session"
+              key={session.id}
+              onClick={() => this.setState({ showSession: session.id })}
+              style={{ lineHeight: '36px', borderBottom: '1px solid #ddd' }}
+            >
+              <div>
+                访问时间：
+                {dayjs(session.createdAt).format('YYYY-MM-DD HH:mm:ss')}
+              </div>
+              <div>
+                访问时长：
+                {dayjs(session.lastEventTime!).diff(
+                  dayjs(session.createdAt),
+                  'second',
+                )}{' '}
+                秒
+              </div>
+              <div>入口：{session.referrer || '直接访问'}</div>
+              {session.utm && (
+                <>
+                  <div>
+                    utm source：
+                    <Tag color="cyan">{session.utm.utm_source || '-'}</Tag>
+                  </div>
+                  <div>
+                    utm campaign：
+                    <Tag color="blue">{session.utm.utm_campaign || '-'}</Tag>
+                  </div>
+                </>
+              )}
             </div>
-            <div>
-              访问时长：
-              {dayjs(session.lastEventTime!).diff(
-                dayjs(session.createdAt),
-                'second',
-              )}{' '}
-              秒
-            </div>
-            <div>入口：{session.referrer || '直接访问'}</div>
-            <div>
-              utm source：
-              <Tag color="cyan">{session.utm.utm_source || '-'}</Tag>
-            </div>
-            <div>
-              utm campaign：
-              <Tag color="blue">{session.utm.utm_campaign || '-'}</Tag>
-            </div>
-          </div>
-        ))}
+          ))}
         {showSession && (
           <SessionModal
             sessionId={showSession}
